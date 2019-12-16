@@ -1,12 +1,12 @@
 # World IMaker
 
 
-IMAC semester 3
-C++ and OpenGL 3.3 project
-3D field and scene viewer-editor
+IMAC semester 3  
+C++ and OpenGL 3.3 project  
+3D field and scene viewer-editor  
 
 
-## Membres :
+## Members :
 
 
 * Andréa Guillot
