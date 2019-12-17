@@ -3,7 +3,6 @@
 # //////////////////////////////////////////////////////////////////////////////////////
 
 cmake_minimum_required(VERSION 2.8)
-add_definitions(-std=c++11)
 
 # //////////////////////////////////////////////////////////////////////////////////////
 # ///////////////////////////////  CONFIGURATION PROJECT  //////////////////////////////
@@ -11,7 +10,7 @@ add_definitions(-std=c++11)
 
 project(WorldIMaker)
 
-set(EXECUTABLE_NAME worldIMaker)
+set(EXECUTABLE_NAME WorldIMaker)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
@@ -26,6 +25,9 @@ find_package(GLEW REQUIRED)
 # //////////////////////////////////////////////////////////////////////////////////////
 # //////////////////////////////////////  INCLUDES  ////////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2 -std=c++11")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-g")
 
 ## ------------------------------ For UPEM compilation ------------------------------ ##
 
@@ -49,13 +51,17 @@ add_subdirectory(lib/glimac)
 # ////////////////////////////////////  PROJECT FILES  /////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////
 
-file(GLOB_RECURSE SOURCES_FILES src/*.cpp)
-file(GLOB_RECURSE HEADERS_FILES include/*.hpp)
-file(GLOB_RECURSE SHADERS_FILES shaders/*.glsl)
+file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
+file(GLOB_RECURSE HEADER_FILES include/*.hpp)
+file(GLOB_RECURSE SHADER_FILES shaders/*.glsl)
 
 # //////////////////////////////////////////////////////////////////////////////////////
 # //////////////////////////////////////  EXECUTABLE  //////////////////////////////////
 # //////////////////////////////////////////////////////////////////////////////////////
 
-add_executable(${PROJECT_NAME} ${SOURCES_FILES} ${HEADERS_FILES} ${SHADERS_FILES})
-target_link_libraries(${PROJECT_NAME} ${ALL_LIBRARIES})
+add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES} ${HEADER_FILES} ${SHADER_FILES})
+
+target_link_libraries(${EXECUTABLE_NAME} ${ALL_LIBRARIES})
+
+file(COPY shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
