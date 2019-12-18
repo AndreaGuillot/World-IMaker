@@ -43,6 +43,10 @@ int main(int argc, char** argv)
     GLint uMVMatrix = glGetUniformLocation(program.getGLId(), "uMVMatrix");
     GLint uNormalMatrix = glGetUniformLocation(program.getGLId(), "uNormalMatrix");
 
+    // initial scene
+    cube.addCube(glm::vec3(0, -1, 0));
+    cube.addCube(glm::vec3(0, 0, 0));
+    cube.addCube(glm::vec3(0, 1, 0));
 
     glEnable(GL_DEPTH_TEST);
 

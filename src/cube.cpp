@@ -6,7 +6,7 @@ using namespace glimac;
  *       CREATE A 3D CUBE       *
  ********************************/
 
-Cube::Cube(FilePath applicationPath)
+Cube::Cube()
 {
     //    v4----- v7
     //   /|      /|
@@ -45,12 +45,6 @@ Cube::Cube(FilePath applicationPath)
         this->m_vertex.push_back(vertex);
     }
 
-    std::vector<glm::vec3> posCubes = {
-        glm::vec3(-2, -1, -3),
-        glm::vec3(0, -1, -3),
-        glm::vec3(2, -1, -3)
-    };
-
     // --- VERTEX BUFFER
     glGenBuffers(1, &this->vbo);
     glBindBuffer(GL_ARRAY_BUFFER,this->vbo);
@@ -59,7 +53,6 @@ Cube::Cube(FilePath applicationPath)
 
     glGenBuffers(1, &this->vbPos);
     glBindBuffer(GL_ARRAY_BUFFER,this->vbPos);
-    glBufferData(GL_ARRAY_BUFFER, (posCubes.size()+1) * sizeof(glm::vec3), posCubes.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER,0);
 
     // --- INDEX BUFFER
@@ -110,8 +103,50 @@ Cube::Cube(FilePath applicationPath)
 void Cube::drawCube()
 {
     glBindVertexArray(this->vao);
-    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, 3);
+    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, this->posCubes.size());
     glBindVertexArray(0);
+};
+
+void Cube::updateGPU()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbPos); 
+    glBufferData(GL_ARRAY_BUFFER, (this->posCubes.size()+1) * sizeof(glm::vec3), this->posCubes.size() > 0 ? &this->posCubes[0] : nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+};
+
+int Cube::findCube(glm::vec3 position)
+{
+    for(size_t j = 0; j < posCubes.size(); j++)
+    {
+        if(glm::length(position - posCubes[j]) < 0.1f)
+        {
+            // find
+            return j;
+        }
+    }
+    // not find
+    return -1;
+};
+
+void Cube::removeCube(glm::vec3 position)
+{
+    int index = findCube(position);
+    if(index != -1)
+    {
+        // put the item to delete at the end
+        int lastIndex = posCubes.size() - 1;
+        std::swap(posCubes[index], posCubes[lastIndex]);
+        this->posCubes.pop_back();
+
+        updateGPU();
+    }
+};
+
+void Cube::addCube(glm::vec3 position)
+{
+    removeCube(position);
+    this->posCubes.push_back(position);
+    updateGPU();
 };
 
 void Cube::deleteData()

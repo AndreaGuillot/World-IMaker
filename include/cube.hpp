@@ -18,7 +18,8 @@ using namespace glimac;
 
 class Cube {
     private:
-        std::vector<glimac::ShapeVertex> m_vertex;
+        std::vector<ShapeVertex> m_vertex;
+        std::vector<glm::vec3> posCubes;
         GLuint vbo;
         GLuint vbPos;
         GLuint vao;
@@ -26,8 +27,12 @@ class Cube {
         std::string shader;
 
     public:
-        Cube(FilePath applicationPath);
+        Cube();
         void drawCube();
+        void updateGPU();
+        int findCube(glm::vec3 position);
+        void removeCube(glm::vec3 position);
+        void addCube(glm::vec3 position);
         void deleteData();
         ~Cube();
 };
