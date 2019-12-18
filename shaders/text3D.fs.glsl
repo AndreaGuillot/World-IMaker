@@ -9,5 +9,5 @@ out vec3 fFragColor;
 void main()
 {
 	// output color 
-	fFragColor = vec3(1.0, 0.0, 0.0);
+	fFragColor = vec3(1.0f, 1.0f, 0.0f);
 }

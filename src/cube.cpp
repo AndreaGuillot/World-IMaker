@@ -68,12 +68,12 @@ Cube::Cube(FilePath applicationPath)
 
         // Index table
         std::vector<uint32_t> index = {
-            0, 1, 2,    2, 3, 0,    // front
-            4, 5, 6,    6, 7, 4,    // back
-            0, 4, 3,    3, 7, 4,    // top
-            1, 2, 5,    2, 6, 5,    // bottom
-            0, 1, 5,    5, 4, 0,    // left
-            3, 2, 6,    6, 7, 3     // right
+            1, 0, 3,    1, 2, 3,    // front
+            5, 4, 7,    5, 6, 7,    // back
+            3, 0, 4,    3, 7, 4,    // top
+            2, 1, 5,    2, 6, 5,    // bottom
+            5, 1, 0,    5, 4, 0,    // left
+            6, 2, 3,    6, 7, 3     // right
         };
 
 
