@@ -4,6 +4,7 @@
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
 
+#include "../include/Curseur.hpp"
 #include "../lib/glimac/include/glimac/common.hpp"
 #include "../lib/glimac/include/glimac/glm.hpp"
 #include "../include/cube.hpp"
@@ -33,7 +34,7 @@ int main(int argc, char** argv)
 
     // ----------- Shaders
     FilePath applicationPath(argv[0]);
-    Cube cube(applicationPath);
+    Cube cube;
     Program program = loadProgram(applicationPath.dirPath() + "../shaders/3D.vs.glsl", applicationPath.dirPath() + "../shaders/text3D.fs.glsl");
     program.use();
 
@@ -50,6 +51,8 @@ int main(int argc, char** argv)
     glm::vec2 MousePosPrec = MousePos;
     glm::mat4 ViewMatrix;
 
+    Curseur curseur;
+
     // Application loop:
     bool done = false;
     while(!done) {
@@ -60,9 +63,15 @@ int main(int argc, char** argv)
                 done = true; // Leave the loop after this iteration
             }
 
+            float speed = 1.f;
+            float speedRotation = 0.1f;
+
             if(e.type == SDL_KEYDOWN){
-                float speed = 1.f;
+
+                curseur.onKeyPressed(e);
+
                 switch(e.key.keysym.sym){
+
                     /*//Up arrow key
                     case SDLK_UP : camera.rotateUp(speed);
                     break;
@@ -89,8 +98,8 @@ int main(int argc, char** argv)
             if(e.type == SDL_MOUSEMOTION){
                 MousePos = windowManager.getMousePosition();
                 if(e.button.button != 0.0){
-                    camera.rotateUp(MousePosPrec.y - MousePos.y);
-                    camera.rotateLeft(MousePosPrec.x - MousePos.x);
+                    camera.rotateUp((MousePosPrec.y - MousePos.y)*speedRotation);
+                    camera.rotateLeft((MousePosPrec.x - MousePos.x)*speedRotation);
                 }
             }
 
