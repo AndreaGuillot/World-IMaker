@@ -1,14 +1,15 @@
-#include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <iostream>
+
+#include <glimac/SDLWindowManager.hpp>
+#include <glimac/common.hpp>
+#include <glimac/glm.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
 
+#include "../include/TrackballCamera.hpp"
+#include "../include/Cubes.hpp"
 #include "../include/Curseur.hpp"
-#include "../lib/glimac/include/glimac/common.hpp"
-#include "../lib/glimac/include/glimac/glm.hpp"
-#include "../include/cube.hpp"
-#include "../lib/glimac/include/glimac/TrackballCamera.hpp"
 
 using namespace glimac;
 
@@ -34,8 +35,8 @@ int main(int argc, char** argv)
 
     // ----------- Shaders
     FilePath applicationPath(argv[0]);
-    Cube cube;
-    Program program = loadProgram(applicationPath.dirPath() + "../shaders/3D.vs.glsl", applicationPath.dirPath() + "../shaders/text3D.fs.glsl");
+    Cubes cube;
+    Program program = loadProgram(applicationPath.dirPath() + "../shaders/3D.vs.glsl", applicationPath.dirPath() + "../shaders/3D.fs.glsl");
     program.use();
 
     // ----------- Find uniform var

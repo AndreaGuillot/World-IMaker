@@ -1,8 +1,11 @@
 #include "../include/Curseur.hpp"
 
-using namespace glimac;
+/********************************
+ *      CREATE A CUBE CURSOR    *
+ ********************************/
 
-void Curseur::deplacement(glm::vec3 direction){
+void Curseur::deplacement(glm::vec3 direction)
+{
 	m_cube.removeCube(m_position);
 	m_position += direction;
 	std::cout<<m_position<<std::endl;
@@ -14,7 +17,8 @@ void Curseur::drawCurseur()
     m_cube.drawCubeWireframe();
 }
 
-void Curseur::onKeyPressed(SDL_Event e){
+void Curseur::onKeyPressed(SDL_Event e)
+{
 	glm::vec3 direction = glm::vec3(0.f, 0.f, 0.f);
 	switch (e.key.keysym.sym) {
 		case SDLK_UP :
@@ -43,3 +47,8 @@ void Curseur::onKeyPressed(SDL_Event e){
 	deplacement(direction);
 
 }
+
+Curseur::~Curseur()
+{
+    delete this;
+};

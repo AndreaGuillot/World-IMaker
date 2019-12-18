@@ -5,10 +5,10 @@
 #include <string>
 #include <cmath>
 
-#include "../lib/glimac/include/glimac/glm.hpp"
-#include "../lib/glimac/include/glimac/common.hpp"
-#include "../lib/glimac/include/glimac/FilePath.hpp"
-#include "../lib/glimac/include/glimac/Program.hpp"
+#include <glimac/glm.hpp>
+#include <glimac/common.hpp>
+#include <glimac/FilePath.hpp>
+#include <glimac/Program.hpp>
 
 using namespace glimac;
 
@@ -16,7 +16,8 @@ using namespace glimac;
  *       CREATE A 3D CUBE       *
  ********************************/
 
-class Cube {
+class Cubes
+{
     private:
         std::vector<ShapeVertex> m_vertex;
         std::vector<glm::vec3> posCubes;
@@ -28,13 +29,18 @@ class Cube {
         std::string shader;
 
     public:
-        Cube();
+        // constructor
+        Cubes();
+        // draw
         void drawCube();
         void drawCubeWireframe();
         void updateGPU();
+        // cube
         int findCube(glm::vec3 position);
         void removeCube(glm::vec3 position);
         void addCube(glm::vec3 position);
+        // delete data
         void deleteData();
-        ~Cube();
+        // destructor
+        ~Cubes();
 };

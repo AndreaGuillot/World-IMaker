@@ -1,36 +1,60 @@
-#ifndef CAMERA__HPP
-#define CAMERA__HPP
 #pragma once
 
+#include <GL/glew.h>
 #include <iostream>
+
 #include <glimac/glm.hpp>
 
-namespace glimac {
+/********************************
+ *        CREATE A CAMERA       *
+ ********************************/
 
-class TrackballCamera {
-	private : 
-		float m_fDistance; //Distance par rapport au centre de la scène
-		float m_fAngleX; //Angle effectué par la cam autour de l'axe X (gauche/droite)
-		float m_fAngleY; //Angle effectué par la cam autour de l'axe Y (haut/bas)
+class TrackballCamera 
+{
+    private:
+        float m_fDistance;  // distance from the center of the scene
+        float m_fAngleX;    // angle around the xAxis (rotation up/down)
+        float m_fAngleY;    // angle around the yAxis (rotation right/left)
 
-	public :
-		//Constructeurs
-		TrackballCamera() : m_fDistance(5.f), m_fAngleX(0.f), m_fAngleY(0.f) {} //Constructeur par défaut
-		//Fonctions basiques
-		void moveFront(float delta){m_fDistance += delta;} //avance/recule la caméra
-		void rotateLeft(float degrees){m_fAngleY += degrees;} //tourne latéralement
-		void rotateUp (float degrees){m_fAngleX += degrees;} //tourne verticalement
-
-		glm::mat4 getViewMatrix() const{
-			glm::mat4 ViewMatrix;
-			ViewMatrix = glm::translate(glm::mat4(1), glm::vec3(0.f, 0.f, m_fDistance));
-		    ViewMatrix = glm::rotate(ViewMatrix, glm::radians(m_fAngleX), glm::vec3(1.f, 0.f, 0.f));
-		    ViewMatrix = glm::rotate(ViewMatrix, glm::radians(m_fAngleY), glm::vec3(0.f, 1.f, 0.f));
-		    return ViewMatrix;      
-		} //Calcule la ViewMatrix de la camera
-
+    public:
+    	// constructor
+        TrackballCamera() :
+            m_fDistance(5.f),
+            m_fAngleX(0.f),
+            m_fAngleY(0.f)
+            {};
+        // get value
+        float get_fDistance(){
+            return this->m_fDistance;
+        }
+        float get_fAgnleX(){
+            return this->m_fAngleX;
+        }
+        float get_fAgnleY(){
+            return this->m_fAngleY;
+        }
+        // movement
+        void moveFront(float delta) {
+            this->m_fDistance += -delta;
+        }
+        void rotateLeft(float degrees) {
+            this->m_fAngleY += degrees;
+        }
+        void rotateUp(float degrees) {
+            this->m_fAngleX += degrees;
+        }
+        // calculate camera ViewMatrix
+        glm::mat4 getViewMatrix() const
+        {
+            glm::mat4 ViewMatrix;
+            ViewMatrix = glm::translate(ViewMatrix,glm::vec3(0.f,0.f,-this->m_fDistance));
+            ViewMatrix = glm::rotate(ViewMatrix, glm::radians(this->m_fAngleX), glm::vec3(1.f,0.f,0.f));
+            ViewMatrix = glm::rotate(ViewMatrix, glm::radians(this->m_fAngleY), glm::vec3(0.f,1.f,0.f));
+            return ViewMatrix;
+        }
+        // destructor
+        ~TrackballCamera()
+        {
+        	delete this;
+        }
 };
-
-}
-
-#endif

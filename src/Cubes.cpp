@@ -1,12 +1,10 @@
-#include "../include/cube.hpp"
-
-using namespace glimac;
+#include "../include/Cubes.hpp"
 
 /********************************
  *       CREATE A 3D CUBE       *
  ********************************/
 
-Cube::Cube()
+Cubes::Cubes()
 {
     //    v4----- v7
     //   /|      /|
@@ -73,20 +71,20 @@ Cube::Cube()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index.size()+1) * sizeof(uint32_t), index.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    // --- INDEX BUFFER wireframe
+    // --- INDEX BUFFER WIREFRAME
     glGenBuffers(1, &this->iboWireframe);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
 
         // Index table
-        std::vector<uint32_t> index1 = {
+        std::vector<uint32_t> index_w = {
             1, 0, 3, 2, 0, 3, 1, 2,    // front
             5, 4, 7, 6, 4, 7, 5, 6,    // back
-            3, 7, 0, 4,   // top
-            2, 6, 1, 5   // bottom
+            3, 7, 0, 4,                // top
+            2, 6, 1, 5                 // bottom
         };
 
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index1.size()+1) * sizeof(uint32_t), index1.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index_w.size()+1) * sizeof(uint32_t), index_w.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // --- VERTEX ARRAY
@@ -116,7 +114,7 @@ Cube::Cube()
     glBindVertexArray(0);
 }
 
-void Cube::drawCube()
+void Cubes::drawCube()
 {
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -124,7 +122,7 @@ void Cube::drawCube()
     glBindVertexArray(0);
 };
 
-void Cube::drawCubeWireframe()
+void Cubes::drawCubeWireframe()
 {
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
@@ -132,14 +130,14 @@ void Cube::drawCubeWireframe()
     glBindVertexArray(0);
 };
 
-void Cube::updateGPU()
+void Cubes::updateGPU()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->vbPos); 
     glBufferData(GL_ARRAY_BUFFER, (this->posCubes.size()+1) * sizeof(glm::vec3), this->posCubes.size() > 0 ? &this->posCubes[0] : nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 };
 
-int Cube::findCube(glm::vec3 position)
+int Cubes::findCube(glm::vec3 position)
 {
     for(size_t j = 0; j < posCubes.size(); j++)
     {
@@ -153,7 +151,7 @@ int Cube::findCube(glm::vec3 position)
     return -1;
 };
 
-void Cube::removeCube(glm::vec3 position)
+void Cubes::removeCube(glm::vec3 position)
 {
     int index = findCube(position);
     if(index != -1)
@@ -167,20 +165,20 @@ void Cube::removeCube(glm::vec3 position)
     }
 };
 
-void Cube::addCube(glm::vec3 position)
+void Cubes::addCube(glm::vec3 position)
 {
     removeCube(position);
     this->posCubes.push_back(position);
     updateGPU();
 };
 
-void Cube::deleteData()
+void Cubes::deleteData()
 {
     glDeleteBuffers(1, &this->vbo);
     glDeleteVertexArrays(1, &this->vao);
 }
 
-Cube::~Cube()
+Cubes::~Cubes()
 {
     delete this;
 };
