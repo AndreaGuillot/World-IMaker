@@ -131,6 +131,7 @@ int main(int argc, char** argv)
 
         // Draw call
         cube.drawCube();
+        curseur.drawCurseur();
 
         // Update the display
         windowManager.swapBuffers();

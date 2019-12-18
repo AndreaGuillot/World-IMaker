@@ -3,10 +3,10 @@
 using namespace glimac;
 
 void Curseur::deplacement(glm::vec3 direction){
-	//m_cube.remove(m_position);
+	m_cube.removeCube(m_position);
 	m_position += direction;
 	std::cout<<m_position<<std::endl;
-	//m_cube.add(m_position);
+	m_cube.addCube(m_position);
 }
 
 void Curseur::drawCurseur()
