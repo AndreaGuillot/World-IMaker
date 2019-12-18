@@ -12,10 +12,15 @@
 
 using namespace glimac;
 
+/********************************
+ *       CREATE A 3D CUBE       *
+ ********************************/
+
 class Cube {
     private:
         std::vector<glimac::ShapeVertex> m_vertex;
         GLuint vbo;
+        GLuint vbPos;
         GLuint vao;
         GLuint ibo;
         std::string shader;

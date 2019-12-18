@@ -2,6 +2,10 @@
 
 using namespace glimac;
 
+/********************************
+ *       CREATE A 3D CUBE       *
+ ********************************/
+
 Cube::Cube(FilePath applicationPath)
 {
     //    v4----- v7
@@ -41,10 +45,21 @@ Cube::Cube(FilePath applicationPath)
         this->m_vertex.push_back(vertex);
     }
 
+    std::vector<glm::vec3> posCubes = {
+        glm::vec3(-2, -1, -3),
+        glm::vec3(0, -1, -3),
+        glm::vec3(2, -1, -3)
+    };
+
     // --- VERTEX BUFFER
     glGenBuffers(1, &this->vbo);
     glBindBuffer(GL_ARRAY_BUFFER,this->vbo);
     glBufferData(GL_ARRAY_BUFFER, (this->m_vertex.size()+1) * sizeof(ShapeVertex), this->m_vertex.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+
+    glGenBuffers(1, &this->vbPos);
+    glBindBuffer(GL_ARRAY_BUFFER,this->vbPos);
+    glBufferData(GL_ARRAY_BUFFER, (posCubes.size()+1) * sizeof(glm::vec3), posCubes.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER,0);
 
     // --- INDEX BUFFER
@@ -74,18 +89,18 @@ Cube::Cube(FilePath applicationPath)
         // Activation - Specification
         {
             const GLuint VERTEX_ATTR_POSITION = 0;
-            const GLuint VERTEX_ATTR_NORMAL = 1;
-            const GLuint VERTEX_ATTR_TEXCOORDS = 2;
+            const GLuint CUBE_ATTR_POSITION = 1;
 
+            glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
             glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-            glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
-            glEnableVertexAttribArray(VERTEX_ATTR_TEXCOORDS);
-
-            glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-            glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, position));
-            glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, normal));
-            glVertexAttribPointer(VERTEX_ATTR_TEXCOORDS, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*) offsetof(ShapeVertex, texCoords));
+            glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), NULL);
+            
+            glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
+            glEnableVertexAttribArray(CUBE_ATTR_POSITION);
+            glVertexAttribPointer(CUBE_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
+           
+            // advance in the buffer at each new cube drawing
+            glVertexAttribDivisor(1, 1);
         }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -94,8 +109,8 @@ Cube::Cube(FilePath applicationPath)
 
 void Cube::drawCube()
 {
-    glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(this->vao);
+    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, 3);
     glBindVertexArray(0);
 };
 

@@ -2,14 +2,9 @@
 
 // Input
 in vec2 vFragPosition;
-in vec2 vFragTexCoords;
 
 // Output
 out vec3 fFragColor;
-
-// Uniform
-uniform vec3 uColor;
-uniform sampler2D uTexture;
 
 void main()
 {
