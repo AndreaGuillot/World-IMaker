@@ -7,6 +7,7 @@
 #include "../lib/glimac/include/glimac/common.hpp"
 #include "../lib/glimac/include/glimac/glm.hpp"
 #include "../include/cube.hpp"
+#include "../lib/glimac/include/glimac/TrackballCamera.hpp"
 
 using namespace glimac;
 
@@ -41,12 +42,11 @@ int main(int argc, char** argv)
     GLint uMVMatrix = glGetUniformLocation(program.getGLId(), "uMVMatrix");
     GLint uNormalMatrix = glGetUniformLocation(program.getGLId(), "uNormalMatrix");
 
-    // ----------- Transformation matrix
-    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
-    glm::mat4 MVMatrix = glm::translate(glm::mat4(), glm::vec3(0.f,0.f,-5.f));
-    glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
 
     glEnable(GL_DEPTH_TEST);
+
+    TrackballCamera camera;
+    glm::mat4 ViewMatrix;
 
     // Application loop:
     bool done = false;
@@ -57,13 +57,47 @@ int main(int argc, char** argv)
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
+
+            if(e.type == SDL_KEYDOWN){
+                float speed = 1.f;
+                switch(e.key.keysym.sym){
+                    //Up arrow key
+                    case SDLK_UP : camera.rotateUp(speed);
+                    break;
+                    //Down arrow key
+                    case SDLK_DOWN: camera.rotateUp(-speed);
+                    break;
+                    //Left arrow key
+                    case SDLK_LEFT: camera.rotateLeft(speed);
+                    break;
+                    //Right arrow key
+                    case SDLK_RIGHT: camera.rotateLeft(-speed);
+                    break;
+                    //Z key to move forward
+                    case SDLK_z: camera.moveFront(speed);
+                    break;
+                    //S key to move backward
+                    case SDLK_s: camera.moveFront(-speed);
+                    break;
+
+                    default: break;
+                }
+            }
         }
+
+        ViewMatrix = camera.getViewMatrix();
 
         /**********************
          * THE RENDERING CODE *
          **********************/
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // ----------- Transformation matrix
+        glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
+        glm::mat4 MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
+        glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+
 
         // ----------- Uniform 
         glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
