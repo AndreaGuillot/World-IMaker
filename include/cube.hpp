@@ -24,11 +24,13 @@ class Cube {
         GLuint vbPos;
         GLuint vao;
         GLuint ibo;
+        GLuint iboWireframe;
         std::string shader;
 
     public:
         Cube();
         void drawCube();
+        void drawCubeWireframe();
         void updateGPU();
         int findCube(glm::vec3 position);
         void removeCube(glm::vec3 position);

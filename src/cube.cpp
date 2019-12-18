@@ -73,6 +73,22 @@ Cube::Cube()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index.size()+1) * sizeof(uint32_t), index.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+    // --- INDEX BUFFER wireframe
+    glGenBuffers(1, &this->iboWireframe);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
+
+        // Index table
+        std::vector<uint32_t> index1 = {
+            1, 0, 3, 2, 0, 3, 1, 2,    // front
+            5, 4, 7, 6, 4, 7, 5, 6,    // back
+            3, 7, 0, 4,   // top
+            2, 6, 1, 5   // bottom
+        };
+
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index1.size()+1) * sizeof(uint32_t), index1.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
     // --- VERTEX ARRAY
     glGenVertexArrays(1, &this->vao);
     glBindVertexArray(this->vao);
@@ -102,8 +118,17 @@ Cube::Cube()
 
 void Cube::drawCube()
 {
-    glBindVertexArray(this->vao);
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, this->posCubes.size());
+    glBindVertexArray(0);
+};
+
+void Cube::drawCubeWireframe()
+{
+    glBindVertexArray(this->vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
+    glDrawElementsInstanced(GL_LINES, 24, GL_UNSIGNED_INT, 0, this->posCubes.size());
     glBindVertexArray(0);
 };
 

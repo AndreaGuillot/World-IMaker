@@ -11,7 +11,7 @@ void Curseur::deplacement(glm::vec3 direction){
 
 void Curseur::drawCurseur()
 {
-    m_cube.drawCube();
+    m_cube.drawCubeWireframe();
 }
 
 void Curseur::onKeyPressed(SDL_Event e){
