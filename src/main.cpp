@@ -46,6 +46,8 @@ int main(int argc, char** argv)
     glEnable(GL_DEPTH_TEST);
 
     TrackballCamera camera;
+    glm::vec2 MousePos;
+    glm::vec2 MousePosPrec = MousePos;
     glm::mat4 ViewMatrix;
 
     // Application loop:
@@ -61,7 +63,7 @@ int main(int argc, char** argv)
             if(e.type == SDL_KEYDOWN){
                 float speed = 1.f;
                 switch(e.key.keysym.sym){
-                    //Up arrow key
+                    /*//Up arrow key
                     case SDLK_UP : camera.rotateUp(speed);
                     break;
                     //Down arrow key
@@ -72,7 +74,7 @@ int main(int argc, char** argv)
                     break;
                     //Right arrow key
                     case SDLK_RIGHT: camera.rotateLeft(-speed);
-                    break;
+                    break;*/
                     //Z key to move forward
                     case SDLK_z: camera.moveFront(speed);
                     break;
@@ -83,9 +85,19 @@ int main(int argc, char** argv)
                     default: break;
                 }
             }
+
+            if(e.type == SDL_MOUSEMOTION){
+                MousePos = windowManager.getMousePosition();
+                if(e.button.button != 0.0){
+                    camera.rotateUp(MousePosPrec.y - MousePos.y);
+                    camera.rotateLeft(MousePosPrec.x - MousePos.x);
+                }
+            }
+
         }
 
         ViewMatrix = camera.getViewMatrix();
+        MousePosPrec = MousePos;
 
         /**********************
          * THE RENDERING CODE *
