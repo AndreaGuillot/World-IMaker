@@ -99,6 +99,15 @@ int main(int argc, char** argv)
                     case SDLK_SPACE : cube.addCube(curseur.getPosition());
                     break;
 
+                    case SDLK_DELETE : cube.removeCube(curseur.getPosition());
+                    break;
+
+                    case SDLK_e : cube.extrudeCube(curseur.getPosition());
+                    break;
+
+                    case SDLK_d : cube.digCube(curseur.getPosition());
+                    break;
+
                     default: break;
                 }
             }

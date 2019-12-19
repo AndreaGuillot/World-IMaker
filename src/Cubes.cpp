@@ -172,6 +172,26 @@ void Cubes::addCube(glm::vec3 position)
     updateGPU();
 };
 
+void Cubes::extrudeCube(glm::vec3 position){
+    int index = 0;
+    while(index != -1){
+        index = findCube(position);
+        position.y++;
+    }
+    position.y--;
+    addCube(position);
+}
+
+void Cubes::digCube(glm::vec3 position){
+    int index = 0;
+    while(index != -1){
+        index = findCube(position);
+        position.y++;
+    }
+    position.y -= 2.f;
+    removeCube(position);
+}
+
 void Cubes::deleteData()
 {
     glDeleteBuffers(1, &this->vbo);

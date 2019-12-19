@@ -39,6 +39,8 @@ class Cubes
         int findCube(glm::vec3 position);
         void removeCube(glm::vec3 position);
         void addCube(glm::vec3 position);
+        void extrudeCube(glm::vec3 position);
+        void digCube(glm::vec3 position);
         // delete data
         void deleteData();
         // destructor
