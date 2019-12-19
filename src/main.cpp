@@ -162,8 +162,5 @@ int main(int argc, char** argv)
         windowManager.swapBuffers();
     }
 
-    // Free allocated memory
-    cube.deleteData();
-
     return EXIT_SUCCESS;
 }

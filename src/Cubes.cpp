@@ -199,13 +199,8 @@ void Cubes::digCube(glm::vec3 position){
     removeCube(position);
 }
 
-void Cubes::deleteData()
+Cubes::~Cubes()
 {
     glDeleteBuffers(1, &this->vbo);
     glDeleteVertexArrays(1, &this->vao);
-}
-
-Cubes::~Cubes()
-{
-    delete this;
 }
