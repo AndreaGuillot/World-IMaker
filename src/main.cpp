@@ -36,27 +36,29 @@ int main(int argc, char** argv)
      * THE INITIALIZATION CODE *
      ***************************/
 
+    // ----------- Objects
     Cubes cube;
     Curseur cursor;
-
-    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
 
     // ----------- Shaders
     FilePath applicationPath(argv[0]);
     ShaderProgram shaderCube(applicationPath,"ColorCube.fs.glsl");
     ShaderProgram shaderCursor(applicationPath,"ColorCursor.fs.glsl");
 
+    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
     cube.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, shaderCube);
     cursor.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, shaderCursor);
 
-    // initial scene
+    // ----------- Initial scene
     cube.addCube(glm::vec3(0.0, -1.0, 0.0));
     cube.addCube(glm::vec3(0.0, 0.0, 0.0));
     cube.addCube(glm::vec3(0.0, 1.0, 0.0));
 
     glEnable(GL_DEPTH_TEST);
 
+    // ----------- Event camera
     TrackballCamera camera;
+    
     glm::vec2 MousePos;
     glm::vec2 MousePosPrec = MousePos;
     glm::mat4 ViewMatrix;
@@ -125,39 +127,23 @@ int main(int argc, char** argv)
 
         }
 
-        ViewMatrix = camera.getViewMatrix();
         MousePosPrec = MousePos;
 
         /**********************
          * THE RENDERING CODE *
          **********************/
 
+        glClearColor(0.0, 0.0, 0.1, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Draw cursor
         shaderCursor.m_program.use();
-        // ----------- Transformation matrix
-        glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
-        glm::mat4 MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
-        glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
-        // ----------- Uniform 
-        glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-        glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-        glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
+        cursor.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, camera);
         cursor.drawCurseur();
 
         // Draw cube
         shaderCube.m_program.use();
-        // ----------- Transformation matrix
-        ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
-        MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
-        NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
-        // ----------- Uniform 
-        glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-        glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-        glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-
+        cube.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, camera);
         cube.drawCube();
 
         // Update the display

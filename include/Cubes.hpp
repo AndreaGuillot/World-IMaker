@@ -8,6 +8,7 @@
 #include <glimac/common.hpp>
 #include <glimac/Program.hpp>
 #include "ShaderProgram.hpp"
+#include "TrackballCamera.hpp"
 
 using namespace glimac;
 
@@ -30,12 +31,13 @@ class Cubes
     public:
         // constructor
         Cubes();
-        void linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader);
         // draw
+        void linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader);
+        void transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, const TrackballCamera &camera) const;
         void drawCube();
         void drawCubeWireframe();
         void updateGPU();
-        // cube
+        // sculpting
         int findCube(glm::vec3 position);
         void removeCube(glm::vec3 position);
         void addCube(glm::vec3 position);

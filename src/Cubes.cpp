@@ -121,6 +121,18 @@ void Cubes::linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix
     uNormalMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uNormalMatrix");
 }
 
+void Cubes::transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, const TrackballCamera &camera) const
+{   
+    glm::mat4 ViewMatrix = camera.getViewMatrix();
+    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
+    glm::mat4 MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
+    glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+    
+    glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+    glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+}
+
 void Cubes::drawCube()
 {
     glBindVertexArray(vao);
