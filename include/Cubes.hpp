@@ -4,12 +4,9 @@
 #include <vector>
 #include <string>
 #include <cmath>
-
 #include <glimac/glm.hpp>
 #include <glimac/common.hpp>
-#include <glimac/FilePath.hpp>
 #include <glimac/Program.hpp>
-
 #include "ShaderProgram.hpp"
 
 using namespace glimac;
@@ -22,7 +19,8 @@ class Cubes
 {
     private:
         std::vector<ShapeVertex> m_vertex;
-        std::vector<glm::vec3> posCubes;
+        std::vector<glm::vec3> m_posCubes;
+
         GLuint vbo;
         GLuint vbPos;
         GLuint vao;

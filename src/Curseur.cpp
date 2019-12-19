@@ -53,8 +53,3 @@ void Curseur::onKeyPressed(SDL_Event e)
 	deplacement(direction);
 
 }
-
-Curseur::~Curseur()
-{
-    delete this;
-};

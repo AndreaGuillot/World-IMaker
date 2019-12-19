@@ -7,6 +7,10 @@
 
 using namespace glimac;
 
+/********************************
+ *        GENERATE SHADERS      *
+ ********************************/
+
 struct ShaderProgram
 {
     Program m_program;

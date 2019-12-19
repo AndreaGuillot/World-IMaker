@@ -53,8 +53,5 @@ class TrackballCamera
             return ViewMatrix;
         }
         // destructor
-        ~TrackballCamera()
-        {
-        	delete this;
-        }
+        ~TrackballCamera() = default;
 };
