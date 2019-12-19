@@ -18,7 +18,7 @@ using namespace glimac;
 
 class Cubes
 {
-    private:
+    protected:
         std::vector<ShapeVertex> m_vertex;
         std::vector<glm::vec3> m_posCubes;
 

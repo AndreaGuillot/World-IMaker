@@ -9,23 +9,20 @@
  *      CREATE A CUBE CURSOR    *
  ********************************/
 
-class Curseur
+class Curseur : public Cubes
 {
 	private :
-		glm::vec3 m_position;
-		Cubes m_cube;
+		glm::vec3 m_posCursor;
 
 	public :
 		// constructor
-		Curseur() : m_position(0.0f, 0.0f, 0.0f) { m_cube.addCube(m_position); }
+		Curseur() : m_posCursor(0.0f, 0.0f, 0.0f) { addCube(m_posCursor); }
 		// draw
-		void linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader);
-		void transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, const TrackballCamera &camera) const;
 		void drawCurseur();
 		// movement
 		void deplacement(glm::vec3 direction);
 		void onKeyPressed(SDL_Event e);
-		glm::vec3 getPosition () const { return m_position; }
+		glm::vec3 getPosition () const { return m_posCursor; }
 		// destructor
 		~Curseur() = default;
 };
