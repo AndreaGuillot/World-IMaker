@@ -44,8 +44,9 @@ include_directories(
 		lib/glimac/include
 		lib/third-party/include
 		)
-set(ALL_LIBRARIES glimac ${SDL_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})
+set(ALL_LIBRARIES glimac imgui ${SDL_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})
 add_subdirectory(lib/glimac)
+add_subdirectory(lib/imgui)
 
 # //////////////////////////////////////////////////////////////////////////////////////
 # ////////////////////////////////////  PROJECT FILES  /////////////////////////////////
