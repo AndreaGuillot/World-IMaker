@@ -114,6 +114,13 @@ Cubes::Cubes()
     glBindVertexArray(0);
 }
 
+void Cubes::linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader)
+{
+    uMVPMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVPMatrix");
+    uMVMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVMatrix");
+    uNormalMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uNormalMatrix");
+}
+
 void Cubes::drawCube()
 {
     glBindVertexArray(vao);
@@ -201,4 +208,4 @@ void Cubes::deleteData()
 Cubes::~Cubes()
 {
     delete this;
-};
+}

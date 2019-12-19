@@ -19,7 +19,8 @@ class Curseur
 
 	public :
 		// constructor
-		Curseur() : m_position(0.f, 0.f, 0.f) {}
+		Curseur() : m_position(0.0f, 0.0f, 0.0f) {}
+		void linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader);
 		// draw
 		void drawCurseur();
 		// movement

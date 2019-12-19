@@ -10,6 +10,8 @@
 #include <glimac/FilePath.hpp>
 #include <glimac/Program.hpp>
 
+#include "ShaderProgram.hpp"
+
 using namespace glimac;
 
 /********************************
@@ -26,11 +28,11 @@ class Cubes
         GLuint vao;
         GLuint ibo;
         GLuint iboWireframe;
-        std::string shader;
 
     public:
         // constructor
         Cubes();
+        void linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader);
         // draw
         void drawCube();
         void drawCubeWireframe();

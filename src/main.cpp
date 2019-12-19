@@ -10,6 +10,7 @@
 #include "../include/TrackballCamera.hpp"
 #include "../include/Cubes.hpp"
 #include "../include/Curseur.hpp"
+#include "../include/ShaderProgram.hpp"
 
 using namespace glimac;
 
@@ -33,21 +34,23 @@ int main(int argc, char** argv)
      * THE INITIALIZATION CODE *
      ***************************/
 
+    Cubes cube;
+    Curseur cursor;
+
+    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
+
     // ----------- Shaders
     FilePath applicationPath(argv[0]);
-    Cubes cube;
-    Program program = loadProgram(applicationPath.dirPath() + "../shaders/3D.vs.glsl", applicationPath.dirPath() + "../shaders/3D.fs.glsl");
-    program.use();
+    ShaderProgram shaderCube(applicationPath,"ColorCube.fs.glsl");
+    ShaderProgram shaderCursor(applicationPath,"ColorCursor.fs.glsl");
 
-    // ----------- Find uniform var
-    GLint uMVPMatrix = glGetUniformLocation(program.getGLId(), "uMVPMatrix");
-    GLint uMVMatrix = glGetUniformLocation(program.getGLId(), "uMVMatrix");
-    GLint uNormalMatrix = glGetUniformLocation(program.getGLId(), "uNormalMatrix");
+    cube.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, shaderCube);
+    cursor.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, shaderCursor);
 
     // initial scene
-    cube.addCube(glm::vec3(0, -1, 0));
-    cube.addCube(glm::vec3(0, 0, 0));
-    cube.addCube(glm::vec3(0, 1, 0));
+    cube.addCube(glm::vec3(0.0, -1.0, 0.0));
+    cube.addCube(glm::vec3(0.0, 0.0, 0.0));
+    cube.addCube(glm::vec3(0.0, 1.0, 0.0));
 
     glEnable(GL_DEPTH_TEST);
 
@@ -55,8 +58,6 @@ int main(int argc, char** argv)
     glm::vec2 MousePos;
     glm::vec2 MousePosPrec = MousePos;
     glm::mat4 ViewMatrix;
-
-    Curseur curseur;
 
     // Application loop:
     bool done = false;
@@ -73,7 +74,7 @@ int main(int argc, char** argv)
 
             if(e.type == SDL_KEYDOWN){
 
-                curseur.onKeyPressed(e);
+                cursor.onKeyPressed(e);
 
                 switch(e.key.keysym.sym){
 
@@ -96,16 +97,16 @@ int main(int argc, char** argv)
                     case SDLK_s: camera.moveFront(-speed);
                     break;
 
-                    case SDLK_SPACE : cube.addCube(curseur.getPosition());
+                    case SDLK_SPACE : cube.addCube(cursor.getPosition());
                     break;
 
-                    case SDLK_DELETE : cube.removeCube(curseur.getPosition());
+                    case SDLK_DELETE : cube.removeCube(cursor.getPosition());
                     break;
 
-                    case SDLK_e : cube.extrudeCube(curseur.getPosition());
+                    case SDLK_e : cube.extrudeCube(cursor.getPosition());
                     break;
 
-                    case SDLK_d : cube.digCube(curseur.getPosition());
+                    case SDLK_d : cube.digCube(cursor.getPosition());
                     break;
 
                     default: break;
@@ -131,20 +132,31 @@ int main(int argc, char** argv)
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Draw cursor
+        shaderCursor.m_program.use();
         // ----------- Transformation matrix
         glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
         glm::mat4 MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
         glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
-
-
         // ----------- Uniform 
         glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
         glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
         glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
 
-        // Draw call
+        cursor.drawCurseur();
+
+        // Draw cube
+        shaderCube.m_program.use();
+        // ----------- Transformation matrix
+        ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
+        MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
+        NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+        // ----------- Uniform 
+        glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
+        glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+        glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+
         cube.drawCube();
-        curseur.drawCurseur();
 
         // Update the display
         windowManager.swapBuffers();

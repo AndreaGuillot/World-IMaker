@@ -4,6 +4,13 @@
  *      CREATE A CUBE CURSOR    *
  ********************************/
 
+void Curseur::linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader)
+{
+    uMVPMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVPMatrix");
+    uMVMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVMatrix");
+    uNormalMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uNormalMatrix");
+}
+
 void Curseur::deplacement(glm::vec3 direction)
 {
 	m_cube.removeCube(m_position);
