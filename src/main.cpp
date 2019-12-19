@@ -96,6 +96,9 @@ int main(int argc, char** argv)
                     case SDLK_s: camera.moveFront(-speed);
                     break;
 
+                    case SDLK_SPACE : cube.addCube(curseur.getPosition());
+                    break;
+
                     default: break;
                 }
             }

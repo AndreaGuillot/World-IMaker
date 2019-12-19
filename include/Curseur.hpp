@@ -25,6 +25,8 @@ class Curseur
 		// movement
 		void deplacement(glm::vec3 direction);
 		void onKeyPressed(SDL_Event e);
+		glm::vec3 getPosition () const { return m_position; }
+
 		// destructor
 		~Curseur();
 };
