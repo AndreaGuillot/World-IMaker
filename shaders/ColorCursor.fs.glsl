@@ -6,6 +6,8 @@ in vec2 vFragPosition;
 // Output
 out vec3 fFragColor;
 
+uniform vec3 uLightDir; 
+
 void main()
 {
 	// output color 

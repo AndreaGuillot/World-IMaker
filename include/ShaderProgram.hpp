@@ -18,6 +18,7 @@ struct ShaderProgram
     GLint uMVPMatrix;
     GLint uMVMatrix;
     GLint uNormalMatrix;
+    GLint uLightDir;
 
     ShaderProgram(const FilePath &applicationPath, std::string object)
         : m_program(loadProgram(applicationPath.dirPath() + "../shaders/3D.vs.glsl", applicationPath.dirPath() + "../shaders" + object))
@@ -25,5 +26,6 @@ struct ShaderProgram
         uMVPMatrix = glGetUniformLocation(m_program.getGLId(), "uMVPMatrix");
         uMVMatrix = glGetUniformLocation(m_program.getGLId(), "uMVMatrix");
         uNormalMatrix = glGetUniformLocation(m_program.getGLId(), "uNormalMatrix");
+        uLightDir = glGetUniformLocation(m_program.getGLId(), "uLightDir");
     }
 };

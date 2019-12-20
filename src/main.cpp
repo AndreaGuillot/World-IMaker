@@ -45,9 +45,10 @@ int main(int argc, char** argv)
     ShaderProgram shaderCube(applicationPath,"ColorCube.fs.glsl");
     ShaderProgram shaderCursor(applicationPath,"ColorCursor.fs.glsl");
 
-    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
-    cube.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, shaderCube);
-    cursor.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, shaderCursor);
+    GLint uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir;
+    cube.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCube);
+    cursor.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCursor);
+
 
     // ----------- Initial scene
     cube.addCube(glm::vec3(0.0, -1.0, 0.0));
@@ -129,6 +130,10 @@ int main(int argc, char** argv)
 
         MousePosPrec = MousePos;
 
+        /*glm::vec3 lightDir = glm::vec3(1.f, 1.f, 1.f);
+
+        glUniform3fv(uLightDir, 1, glm::value_ptr(lightDir));*/
+
         /**********************
          * THE RENDERING CODE *
          **********************/
@@ -138,12 +143,12 @@ int main(int argc, char** argv)
 
         // Draw cursor
         shaderCursor.m_program.use();
-        cursor.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, camera);
+        cursor.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);
         cursor.drawCurseur();
 
         // Draw cube
         shaderCube.m_program.use();
-        cube.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, camera);
+        cube.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);
         cube.drawCube();
 
         // Update the display

@@ -15,30 +15,44 @@ Cubes::Cubes()
     //  v1------v2
 
     std::vector<glm::vec3> cube_vertex = {
-        // front
-        glm::vec3(-0.5f, 0.5f, 0.5f),
-        glm::vec3(-0.5f, -0.5f, 0.5f),
-        glm::vec3(0.5f, -0.5f, 0.5f),
-        glm::vec3(0.5f, 0.5f, 0.5f),
-        // back
-        glm::vec3(-0.5f, 0.5f, -0.5f),
-        glm::vec3(-0.5f, -0.5f, -0.5f),
-        glm::vec3(0.5f, -0.5f, -0.5f),
-        glm::vec3(0.5f, 0.5f, -0.5f)
+        // front face
+        glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f),
+        // back face
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.5f, 0.5f, -0.5f),
+        // left face
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(-0.5f, -0.5f, -0.5f),
+        // right face
+        glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, -0.5f),
+        // top face
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, -0.5f),
+        // bot face
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, -0.5f)
+    };
+
+    glm::vec3 normals[] = {
+    	// front face
+    	glm::vec3(0, 0, 1), glm::vec3(0, 0, 1), glm::vec3(0, 0, 1), glm::vec3(0, 0, 1), 
+    	// back face
+    	glm::vec3(0, 0, -1), glm::vec3(0, 0, -1), glm::vec3(0, 0, -1), glm::vec3(0, 0, -1), 
+    	// left face
+    	glm::vec3(-1, 0, 0), glm::vec3(-1, 0, 0),glm::vec3(-1, 0, 0),glm::vec3(-1, 0, 0),
+    	// right face
+    	glm::vec3(1, 0, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 0),glm::vec3(1, 0, 0),
+    	// top face
+    	glm::vec3(0, 1, 0),glm::vec3(0, 1, 0),glm::vec3(0, 1, 0),glm::vec3(0, 1, 0),
+    	// bot face
+    	glm::vec3(0, -1, 0),glm::vec3(0, -1, 0),glm::vec3(0, -1, 0),glm::vec3(0, -1, 0)
     };
     
-    for(size_t i = 0; i < 8; ++i)
+    for(size_t i = 0; i < 24; ++i)
     {
         ShapeVertex vertex;
         
         vertex.texCoords.x = 0;
         vertex.texCoords.y = 1;
 
-        vertex.normal.x = cube_vertex[i].x;
-        vertex.normal.y = cube_vertex[i].y;
-        vertex.normal.z = cube_vertex[i].z;
-        
-        vertex.position = vertex.normal;
+        vertex.position = cube_vertex[i];
+        vertex.normal = normals[i];
         
         this->m_vertex.push_back(vertex);
     }
@@ -59,13 +73,13 @@ Cubes::Cubes()
 
         // Index table
         std::vector<uint32_t> index = {
-            1, 0, 3,    1, 2, 3,    // front
-            5, 4, 7,    5, 6, 7,    // back
-            3, 0, 4,    3, 7, 4,    // top
-            2, 1, 5,    2, 6, 5,    // bottom
-            5, 1, 0,    5, 4, 0,    // left
-            6, 2, 3,    6, 7, 3     // right
-        };
+            0, 1, 2,  0, 2, 3,    // front
+            4, 5, 6,  4, 6, 7,    // back
+            8, 9, 10,  8, 10, 11,    // back
+            12, 13, 14,  12, 14, 15,    // back
+            16, 17, 18,  16, 18, 19,    // back
+            20, 21, 22,  20, 22, 23    // back
+         };
 
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index.size()+1) * sizeof(uint32_t), index.data(), GL_STATIC_DRAW);
@@ -96,11 +110,15 @@ Cubes::Cubes()
         // Activation - Specification
         {
             const GLuint VERTEX_ATTR_POSITION = 0;
+            const GLuint VERTEX_ATTR_NORMAL = 2;
             const GLuint CUBE_ATTR_POSITION = 1;
 
             glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
             glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
             glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), NULL);
+
+            glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
+            glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (void*)(3*sizeof(float)));
             
             glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
             glEnableVertexAttribArray(CUBE_ATTR_POSITION);
@@ -114,23 +132,26 @@ Cubes::Cubes()
     glBindVertexArray(0);
 }
 
-void Cubes::linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &shader)
+void Cubes::linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, ShaderProgram &shader)
 {
     uMVPMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVPMatrix");
     uMVMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVMatrix");
     uNormalMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uNormalMatrix");
+    uLightDir = glGetUniformLocation(shader.m_program.getGLId(), "uLightDir"); 
 }
 
-void Cubes::transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, const TrackballCamera &camera) const
+void Cubes::transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, const TrackballCamera &camera) const
 {   
     glm::mat4 ViewMatrix = camera.getViewMatrix();
     glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
     glm::mat4 MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+    glm::vec3 lightDir = glm::vec3(1.f, 1.f, 1.f);
     
     glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
     glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
     glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
+    glUniform3fv(uLightDir, 1, glm::value_ptr(lightDir));
 }
 
 void Cubes::drawCube()
