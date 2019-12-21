@@ -6,5 +6,4 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/io.hpp>
-#include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/random.hpp>

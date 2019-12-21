@@ -19,12 +19,12 @@ public:
         build(radius, discLat, discLong); // Construction (voir le .cpp)
     }
 
-    // Renvoie le pointeur vers les données
+    // Renvoit le pointeur vers les données
     const ShapeVertex* getDataPointer() const {
         return &m_Vertices[0];
     }
     
-    // Renvoie le nombre de vertex
+    // Renvoit le nombre de vertex
     GLsizei getVertexCount() const {
         return m_nVertexCount;
     }
