@@ -132,7 +132,7 @@ Cubes::Cubes()
     glBindVertexArray(0);
 }
 
-void Cubes::linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, ShaderProgram &shader)
+void Cubes::getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, ShaderProgram &shader)
 {
     uMVPMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVPMatrix");
     uMVMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVMatrix");
@@ -158,7 +158,7 @@ void Cubes::drawCube()
 {
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, this->m_posCubes.size());
+    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, this->m_position.size());
     glBindVertexArray(0);
 };
 
@@ -166,22 +166,22 @@ void Cubes::drawCubeWireframe()
 {
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
-    glDrawElementsInstanced(GL_LINES, 24, GL_UNSIGNED_INT, 0, this->m_posCubes.size());
+    glDrawElementsInstanced(GL_LINES, 24, GL_UNSIGNED_INT, 0, this->m_position.size());
     glBindVertexArray(0);
 };
 
 void Cubes::updateGPU()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->vbPos); 
-    glBufferData(GL_ARRAY_BUFFER, (this->m_posCubes.size()+1) * sizeof(glm::vec3), this->m_posCubes.size() > 0 ? &this->m_posCubes[0] : nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, (this->m_position.size()+1) * sizeof(glm::vec3), this->m_position.size() > 0 ? &this->m_position[0] : nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 };
 
 int Cubes::findCube(glm::vec3 position)
 {
-    for(size_t j = 0; j < m_posCubes.size(); j++)
+    for(size_t j = 0; j < m_position.size(); j++)
     {
-        if(glm::length(position - m_posCubes[j]) < 0.1f)
+        if(glm::length(position - m_position[j]) < 0.1f)
         {
             // find
             return j;
@@ -197,9 +197,9 @@ void Cubes::removeCube(glm::vec3 position)
     if(index != -1)
     {
         // put the item to delete at the end
-        int lastIndex = m_posCubes.size() - 1;
-        std::swap(m_posCubes[index], m_posCubes[lastIndex]);
-        this->m_posCubes.pop_back();
+        int lastIndex = m_position.size() - 1;
+        std::swap(m_position[index], m_position[lastIndex]);
+        this->m_position.pop_back();
 
         updateGPU();
     }
@@ -208,7 +208,7 @@ void Cubes::removeCube(glm::vec3 position)
 void Cubes::addCube(glm::vec3 position)
 {
     removeCube(position);
-    this->m_posCubes.push_back(position);
+    this->m_position.push_back(position);
     updateGPU();
 };
 

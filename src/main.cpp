@@ -14,10 +14,13 @@
 
 using namespace glimac;
 
+const int WINDOW_WIDTH = 800;
+const int WINDOW_HEIGHT = 600;
+
 int main(int argc, char** argv)
 {
     // Initialize SDL and open a window
-    SDLWindowManager windowManager(800, 600, "World IMaker");
+    SDLWindowManager windowManager(WINDOW_WIDTH, WINDOW_HEIGHT, "World IMaker");
 
     // Initialize Imgui interface
 
@@ -46,8 +49,8 @@ int main(int argc, char** argv)
     ShaderProgram shaderCursor(applicationPath,"ColorCursor.fs.glsl");
 
     GLint uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir;
-    cube.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCube);
-    cursor.linkShader(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCursor);
+    cube.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCube);
+    cursor.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCursor);
 
 
     // ----------- Initial scene

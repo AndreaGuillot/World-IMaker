@@ -22,7 +22,7 @@ class Curseur : public Cubes
 		// movement
 		void deplacement(glm::vec3 direction);
 		void onKeyPressed(SDL_Event e);
-		glm::vec3 getPosition () const { return m_posCursor; }
+		glm::vec3 getPosition() const { return m_posCursor; }
 		// destructor
 		~Curseur() = default;
 };

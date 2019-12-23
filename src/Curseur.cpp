@@ -40,7 +40,6 @@ void Curseur::onKeyPressed(SDL_Event e)
 			break;
 		default:
 			break;
-
 	}
 
 	deplacement(direction);

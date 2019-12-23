@@ -1,15 +1,13 @@
 #version 330 core
 
-// Input
-in vec2 vFragPosition;
+// Uniform Light
+uniform vec3 uLightDir; 
 
 // Output
-out vec3 fFragColor;
-
-uniform vec3 uLightDir; 
+out vec4 fFragColor;
 
 void main()
 {
 	// output color 
-	fFragColor = vec3(1.0f, 1.0f, 1.0f);
+	fFragColor = vec4(1.0, 1.0, 1.0, 1.0);
 }

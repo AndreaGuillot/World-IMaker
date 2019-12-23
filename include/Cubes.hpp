@@ -20,7 +20,7 @@ class Cubes
 {
     protected:
         std::vector<ShapeVertex> m_vertex;
-        std::vector<glm::vec3> m_posCubes;
+        std::vector<glm::vec3> m_position;
 
         GLuint vbo;
         GLuint vbPos;
@@ -32,7 +32,7 @@ class Cubes
         // constructor
         Cubes();
         // draw
-        void linkShader(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, ShaderProgram &shader);
+        void getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, ShaderProgram &shader);
         void transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, const TrackballCamera &camera) const;
         void drawCube();
         void drawCubeWireframe();
