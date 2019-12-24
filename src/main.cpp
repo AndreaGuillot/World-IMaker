@@ -69,6 +69,8 @@ int main(int argc, char** argv)
     glm::vec2 MousePosPrec = MousePos;
     glm::mat4 ViewMatrix;
 
+    glm::vec4 defaultColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
     // Application loop:
     bool done = false;
     while(!done) {
@@ -107,13 +109,13 @@ int main(int argc, char** argv)
                     case SDLK_s: camera.moveFront(-speed);
                     break;
 
-                    case SDLK_SPACE : cube.addCube(cursor.getPosition(), glm::vec4(0,0,0,1));
+                    case SDLK_SPACE : cube.addCube(cursor.getPosition(), defaultColor);
                     break;
 
                     case SDLK_DELETE : cube.removeCube(cursor.getPosition());
                     break;
 
-                    case SDLK_e : cube.extrudeCube(cursor.getPosition(),glm::vec4(0,0,0,1));
+                    case SDLK_e : cube.extrudeCube(cursor.getPosition(), defaultColor);
                     break;
 
                     case SDLK_d : cube.digCube(cursor.getPosition());

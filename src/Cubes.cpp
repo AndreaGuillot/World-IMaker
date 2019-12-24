@@ -128,7 +128,6 @@ Cubes::Cubes()
             glBindBuffer(GL_ARRAY_BUFFER, this->vbCol);
             glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
             glVertexAttribPointer(VERTEX_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
-            // advance in the buffer at each new cube drawing
             glVertexAttribDivisor(3, 1);
         }
 
