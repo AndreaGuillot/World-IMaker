@@ -13,6 +13,7 @@ class Curseur : public Cubes
 {
 	private :
 		glm::vec3 m_posCursor;
+		glm::vec4 m_colorCursor;
 
 	public :
 		// constructor

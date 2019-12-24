@@ -15,10 +15,8 @@ struct ShaderProgram
 {
     Program m_program;
 
-    GLint uMVPMatrix;
-    GLint uMVMatrix;
-    GLint uNormalMatrix;
-    GLint uLightDir;
+    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
+    GLint uLightDir, uColor;
 
     ShaderProgram(const FilePath &applicationPath, std::string object)
         : m_program(loadProgram(applicationPath.dirPath() + "../shaders/3D.vs.glsl", applicationPath.dirPath() + "../shaders" + object))

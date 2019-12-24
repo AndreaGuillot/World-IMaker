@@ -2,8 +2,9 @@
 
 // Input
 in vec3 vNormal;
+in vec4 vColor;
 
-// Uniform light
+// Uniform
 uniform vec3 uLightDir;
 
 // Output
@@ -14,6 +15,6 @@ void main()
 	// calcul light
 	vec3 dir = normalize(vec3(0.5, -0.7, -0.8));
 	float luminosite = max(-dot(vNormal, dir), 0.2);
-	// output color * light
-	fFragColor = vec4(0.8, 0.2, 0.3, 1.0) * luminosite;
+	// color * light
+	fFragColor = vColor * luminosite;
 }

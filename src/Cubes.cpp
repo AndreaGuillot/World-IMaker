@@ -14,6 +14,8 @@ Cubes::Cubes()
     //  |/      |/
     //  v1------v2
 
+    m_color = glm::vec4(0.8, 0.2, 0.3, 1.);
+
     std::vector<glm::vec3> cube_vertex = {
         // front face
         glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f),
@@ -53,6 +55,8 @@ Cubes::Cubes()
 
         vertex.position = cube_vertex[i];
         vertex.normal = normals[i];
+
+        vertex.color = m_color;
         
         this->m_vertex.push_back(vertex);
     }
@@ -110,8 +114,9 @@ Cubes::Cubes()
         // Activation - Specification
         {
             const GLuint VERTEX_ATTR_POSITION = 0;
+            const GLuint CUBES_ATTR_POSITION = 1;
             const GLuint VERTEX_ATTR_NORMAL = 2;
-            const GLuint CUBE_ATTR_POSITION = 1;
+            const GLuint VERTEX_ATTR_COLOR = 3;
 
             glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
             glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
@@ -120,9 +125,12 @@ Cubes::Cubes()
             glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
             glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (void*)(3*sizeof(float)));
             
+            glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
+            glVertexAttribPointer(VERTEX_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(glimac::ShapeVertex, color));
+
             glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
-            glEnableVertexAttribArray(CUBE_ATTR_POSITION);
-            glVertexAttribPointer(CUBE_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
+            glEnableVertexAttribArray(CUBES_ATTR_POSITION);
+            glVertexAttribPointer(CUBES_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
            
             // advance in the buffer at each new cube drawing
             glVertexAttribDivisor(1, 1);
@@ -132,12 +140,12 @@ Cubes::Cubes()
     glBindVertexArray(0);
 }
 
-void Cubes::getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, ShaderProgram &shader)
+void Cubes::getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &object)
 {
-    uMVPMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVPMatrix");
-    uMVMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uMVMatrix");
-    uNormalMatrix = glGetUniformLocation(shader.m_program.getGLId(), "uNormalMatrix");
-    uLightDir = glGetUniformLocation(shader.m_program.getGLId(), "uLightDir"); 
+    uMVPMatrix = glGetUniformLocation(object.m_program.getGLId(), "uMVPMatrix");
+    uMVMatrix = glGetUniformLocation(object.m_program.getGLId(), "uMVMatrix");
+    uNormalMatrix = glGetUniformLocation(object.m_program.getGLId(), "uNormalMatrix");
+    //uLightDir = glGetUniformLocation(object.m_program.getGLId(), "uLightDir");
 }
 
 void Cubes::transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, const TrackballCamera &camera) const
@@ -176,6 +184,23 @@ void Cubes::updateGPU()
     glBufferData(GL_ARRAY_BUFFER, (this->m_position.size()+1) * sizeof(glm::vec3), this->m_position.size() > 0 ? &this->m_position[0] : nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 };
+
+void Cubes::editColor(int type)
+{
+    glm::vec4 setcolor;
+    glm::vec4 color_1 = glm::vec4(0.8, 0.2, 0.3, 1.);
+    glm::vec4 color_2 = glm::vec4(0.3, 0.8, 0.2, 1.);
+    glm::vec4 color_3 = glm::vec4(0.2, 0.3, 0.8, 1.);
+
+    if (type == 1) setcolor = color_1;
+    if (type == 2) setcolor = color_2;
+    if (type == 3) setcolor = color_3;
+
+    for (uint i = 0; i < m_vertex.size(); ++i)
+    {
+        m_vertex[i].color = setcolor;
+    }
+}  
 
 int Cubes::findCube(glm::vec3 position)
 {

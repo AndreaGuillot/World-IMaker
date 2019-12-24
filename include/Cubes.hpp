@@ -21,7 +21,7 @@ class Cubes
     protected:
         std::vector<ShapeVertex> m_vertex;
         std::vector<glm::vec3> m_position;
-
+        glm::vec4 m_color;
         GLuint vbo;
         GLuint vbPos;
         GLuint vao;
@@ -32,11 +32,13 @@ class Cubes
         // constructor
         Cubes();
         // draw
-        void getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, ShaderProgram &shader);
+        void getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &object);
         void transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, const TrackballCamera &camera) const;
         void drawCube();
         void drawCubeWireframe();
         void updateGPU();
+        // color
+        void editColor(int type);
         // sculpting
         int findCube(glm::vec3 position);
         void removeCube(glm::vec3 position);

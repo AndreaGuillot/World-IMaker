@@ -39,26 +39,28 @@ int main(int argc, char** argv)
      * THE INITIALIZATION CODE *
      ***************************/
 
-    // ----------- Objects
     Cubes cube;
     Curseur cursor;
 
     // ----------- Shaders
     FilePath applicationPath(argv[0]);
-    ShaderProgram shaderCube(applicationPath,"ColorCube.fs.glsl");
-    ShaderProgram shaderCursor(applicationPath,"ColorCursor.fs.glsl");
+    ShaderProgram cubeProgram(applicationPath, "ColorCube.fs.glsl");
+    ShaderProgram cursorProgram(applicationPath, "ColorCursor.fs.glsl");
 
-    GLint uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir;
-    cube.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCube);
-    cursor.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, shaderCursor);
+    // ----------- Uniform locations
+    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
+    GLint uLightDir;
+    cube.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, cubeProgram);
+    cursor.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, cursorProgram);
 
-
-    // ----------- Initial scene
+    // ----------- Initialize scene
     cube.addCube(glm::vec3(0.0, -1.0, 0.0));
     cube.addCube(glm::vec3(0.0, 0.0, 0.0));
     cube.addCube(glm::vec3(0.0, 1.0, 0.0));
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // ----------- Event camera
     TrackballCamera camera;
@@ -145,12 +147,13 @@ int main(int argc, char** argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Draw cursor
-        shaderCursor.m_program.use();
+        cursorProgram.m_program.use();
         cursor.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);
         cursor.drawCurseur();
 
         // Draw cube
-        shaderCube.m_program.use();
+        cubeProgram.m_program.use();
+        //glUniform1i(cubeProgram.uColor, 1);
         cube.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);
         cube.drawCube();
 
