@@ -63,6 +63,10 @@ Cubes::Cubes()
     glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    glGenBuffers(1, &this->vbCol);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbCol);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     // ------ INDEX BUFFER ------- //
 
     glGenBuffers(1, &this->ibo);
@@ -118,15 +122,18 @@ Cubes::Cubes()
 
             glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
             glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, normal));
-            
-            glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
-            glVertexAttribPointer(VERTEX_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, color));
 
             glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
             glEnableVertexAttribArray(CUBES_ATTR_POSITION);
             glVertexAttribPointer(CUBES_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
             // advance in the buffer at each new cube drawing
             glVertexAttribDivisor(1, 1);
+
+            glBindBuffer(GL_ARRAY_BUFFER, this->vbCol);
+            glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
+            glVertexAttribPointer(VERTEX_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
+            // advance in the buffer at each new cube drawing
+            glVertexAttribDivisor(3, 1);
         }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -173,20 +180,21 @@ void Cubes::drawCubeWireframe()
 
 void Cubes::updateGPU()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-    glBufferData(GL_ARRAY_BUFFER, this->m_vertex.size() * sizeof(ShapeVertex), this->m_vertex.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
     glBindBuffer(GL_ARRAY_BUFFER, this->vbPos); 
     glBufferData(GL_ARRAY_BUFFER, this->m_position.size() * sizeof(glm::vec3), this->m_position.size() > 0 ? &this->m_position[0] : nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbCol); 
+    glBufferData(GL_ARRAY_BUFFER, this->m_color.size() * sizeof(glm::vec4), this->m_color.size() > 0 ? &this->m_color[0] : nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 };
 
-void Cubes::editColor(glm::vec4 color)
+void Cubes::editColor(glm::vec3 position, glm::vec4 color)
 {
-    for (uint i = 0; i < m_vertex.size(); ++i)
+    int index = findCube(position);
+    if(index != -1)
     {
-        m_vertex[i].color = color;
+        m_color[index] = color;
     }
     updateGPU();
 }  
@@ -211,21 +219,28 @@ void Cubes::removeCube(glm::vec3 position)
     if(index != -1)
     {
         // put the item to delete at the end
-        int lastIndex = m_position.size() - 1;
-        std::swap(m_position[index], m_position[lastIndex]);
+        int lastIndexP = m_position.size() - 1;
+        std::swap(m_position[index], m_position[lastIndexP]);
         this->m_position.pop_back();
+
+        // put the item to delete at the end
+        int lastIndexC = m_color.size() - 1;
+        std::swap(m_color[index], m_color[lastIndexC]);
+        this->m_color.pop_back();
+
         updateGPU();
     }
 };
 
-void Cubes::addCube(glm::vec3 position)
+void Cubes::addCube(glm::vec3 position, glm::vec4 color)
 {
     removeCube(position);
     this->m_position.push_back(position);
+    this->m_color.push_back(color);
     updateGPU();
 };
 
-void Cubes::extrudeCube(glm::vec3 position){
+void Cubes::extrudeCube(glm::vec3 position, glm::vec4 color){
     int index = 0;
     while(index != -1)
     {
@@ -233,7 +248,7 @@ void Cubes::extrudeCube(glm::vec3 position){
         position.y++;
     }
     position.y--;
-    addCube(position);
+    addCube(position, color);
 }
 
 void Cubes::digCube(glm::vec3 position){
@@ -251,6 +266,7 @@ Cubes::~Cubes()
 {
     glDeleteBuffers(1, &this->vbo);
     glDeleteBuffers(1, &this->vbPos);
+    glDeleteBuffers(1, &this->vbCol);
     glDeleteBuffers(1, &this->ibo);
     glDeleteBuffers(1, &this->iboWireframe);
     glDeleteVertexArrays(1, &this->vao);

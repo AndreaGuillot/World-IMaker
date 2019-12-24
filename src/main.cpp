@@ -54,12 +54,9 @@ int main(int argc, char** argv)
     cursor.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, cursorProgram);
 
     // ----------- Initialize scene
-    cube.addCube(glm::vec3(0.0, -1.0, 0.0));
-    //cube.editColor(glm::vec4(0.8, 0.2, 0.3, 1.));
-    cube.addCube(glm::vec3(0.0, 0.0, 0.0));
-    //cube.editColor(glm::vec4(0.3, 0.8, 0.2, 1.));
-    cube.addCube(glm::vec3(0.0, 1.0, 0.0));
-    //cube.editColor(glm::vec4(0.2, 0.3, 0.8, 1.));
+    cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.));
+    cube.addCube(glm::vec3(0.0, 0.0, 0.0), glm::vec4(0.3, 0.8, 0.2, 1.));
+    cube.addCube(glm::vec3(0.0, 1.0, 0.0), glm::vec4(0.2, 0.3, 0.8, 1.));
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -110,13 +107,13 @@ int main(int argc, char** argv)
                     case SDLK_s: camera.moveFront(-speed);
                     break;
 
-                    case SDLK_SPACE : cube.addCube(cursor.getPosition());
+                    case SDLK_SPACE : cube.addCube(cursor.getPosition(), glm::vec4(0,0,0,1));
                     break;
 
                     case SDLK_DELETE : cube.removeCube(cursor.getPosition());
                     break;
 
-                    case SDLK_e : cube.extrudeCube(cursor.getPosition());
+                    case SDLK_e : cube.extrudeCube(cursor.getPosition(),glm::vec4(0,0,0,1));
                     break;
 
                     case SDLK_d : cube.digCube(cursor.getPosition());

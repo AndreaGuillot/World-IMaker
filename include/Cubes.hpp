@@ -21,9 +21,10 @@ class Cubes
     protected:
         std::vector<ShapeVertex> m_vertex;
         std::vector<glm::vec3> m_position;
-        glm::vec4 m_color;
+        std::vector<glm::vec4> m_color;
         GLuint vbo;
         GLuint vbPos;
+        GLuint vbCol;
         GLuint vao;
         GLuint ibo;
         GLuint iboWireframe;
@@ -38,12 +39,12 @@ class Cubes
         void drawCubeWireframe();
         void updateGPU();
         // color
-        void editColor(glm::vec4 color);
+        void editColor(glm::vec3 position, glm::vec4 color);
         // sculpting
         int findCube(glm::vec3 position);
         void removeCube(glm::vec3 position);
-        void addCube(glm::vec3 position);
-        void extrudeCube(glm::vec3 position);
+        void addCube(glm::vec3 position, glm::vec4 color);
+        void extrudeCube(glm::vec3 position, glm::vec4 color);
         void digCube(glm::vec3 position);
         // delete data
         void deleteData();

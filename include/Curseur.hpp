@@ -17,7 +17,7 @@ class Curseur : public Cubes
 
 	public :
 		// constructor
-		Curseur() : m_posCursor(0.0f, 0.0f, 0.0f) { addCube(m_posCursor); }
+		Curseur() : m_posCursor(0.0f, 0.0f, 0.0f), m_colorCursor(1.f, 1.f, 1.f, 1.f) { addCube(m_posCursor, m_colorCursor); }
 		// draw
 		void drawCurseur();
 		// movement
