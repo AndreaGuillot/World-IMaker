@@ -17,33 +17,21 @@ Cubes::Cubes()
     m_color = glm::vec4(0.8, 0.2, 0.3, 1.);
 
     std::vector<glm::vec3> cube_vertex = {
-        // front face
-        glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f),
-        // back face
-        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.5f, 0.5f, -0.5f),
-        // left face
-        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(-0.5f, -0.5f, -0.5f),
-        // right face
-        glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, -0.5f),
-        // top face
-        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, -0.5f),
-        // bot face
-        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0.5f, -0.5f, -0.5f)
+        glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.5f,  0.5f,  0.5f),     // front face
+        glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.5f,  0.5f, -0.5f),     // back face
+        glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(-0.5f, -0.5f, -0.5f),     // left face
+        glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f, -0.5f),     // right face
+        glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.5f,  0.5f, -0.5f),     // top face
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f, -0.5f)      // bot face
     };
 
     glm::vec3 normals[] = {
-    	// front face
-    	glm::vec3(0, 0, 1), glm::vec3(0, 0, 1), glm::vec3(0, 0, 1), glm::vec3(0, 0, 1), 
-    	// back face
-    	glm::vec3(0, 0, -1), glm::vec3(0, 0, -1), glm::vec3(0, 0, -1), glm::vec3(0, 0, -1), 
-    	// left face
-    	glm::vec3(-1, 0, 0), glm::vec3(-1, 0, 0),glm::vec3(-1, 0, 0),glm::vec3(-1, 0, 0),
-    	// right face
-    	glm::vec3(1, 0, 0), glm::vec3(1, 0, 0),glm::vec3(1, 0, 0),glm::vec3(1, 0, 0),
-    	// top face
-    	glm::vec3(0, 1, 0),glm::vec3(0, 1, 0),glm::vec3(0, 1, 0),glm::vec3(0, 1, 0),
-    	// bot face
-    	glm::vec3(0, -1, 0),glm::vec3(0, -1, 0),glm::vec3(0, -1, 0),glm::vec3(0, -1, 0)
+    	glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1),    // front face
+    	glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1),    // back face
+    	glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0),    // left face
+    	glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0),    // right face
+    	glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0),    // top face
+    	glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0)     // bot face
     };
     
     for(size_t i = 0; i < 24; ++i)
@@ -53,59 +41,65 @@ Cubes::Cubes()
         vertex.texCoords.x = 0;
         vertex.texCoords.y = 1;
 
-        vertex.position = cube_vertex[i];
         vertex.normal = normals[i];
+
+        vertex.position = cube_vertex[i];
 
         vertex.color = m_color;
         
         this->m_vertex.push_back(vertex);
     }
 
-    // --- VERTEX BUFFER
+    // --------------------------- //
+
+    // ------ VERTEX BUFFER ------ //
+
     glGenBuffers(1, &this->vbo);
-    glBindBuffer(GL_ARRAY_BUFFER,this->vbo);
-    glBufferData(GL_ARRAY_BUFFER, (this->m_vertex.size()+1) * sizeof(ShapeVertex), this->m_vertex.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER,0);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+    glBufferData(GL_ARRAY_BUFFER, this->m_vertex.size() * sizeof(ShapeVertex), this->m_vertex.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glGenBuffers(1, &this->vbPos);
-    glBindBuffer(GL_ARRAY_BUFFER,this->vbPos);
-    glBindBuffer(GL_ARRAY_BUFFER,0);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // --- INDEX BUFFER
+    // ------ INDEX BUFFER ------- //
+
     glGenBuffers(1, &this->ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
 
         // Index table
         std::vector<uint32_t> index = {
-            0, 1, 2,  0, 2, 3,    // front
-            4, 5, 6,  4, 6, 7,    // back
-            8, 9, 10,  8, 10, 11,    // back
-            12, 13, 14,  12, 14, 15,    // back
-            16, 17, 18,  16, 18, 19,    // back
-            20, 21, 22,  20, 22, 23    // back
-         };
+            0,   1,  2,     0,  2,  3,      // front
+            4,   5,  6,     4,  6,  7,      // back
+            8,   9,  10,    8,  10, 11,     // left
+            12,  13, 14,    12, 14, 15,     // right
+            16,  17, 18,    16, 18, 19,     // top
+            20,  21, 22,    20, 22, 23      // bot
+        };
 
-
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index.size()+1) * sizeof(uint32_t), index.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, index.size() * sizeof(uint32_t), index.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    // --- INDEX BUFFER WIREFRAME
+    // -- INDEX BUFFER WIREFRAME -- //
+
     glGenBuffers(1, &this->iboWireframe);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
 
         // Index table
         std::vector<uint32_t> index_w = {
-            1, 0, 3, 2, 0, 3, 1, 2,    // front
-            5, 4, 7, 6, 4, 7, 5, 6,    // back
-            3, 7, 0, 4,                // top
-            2, 6, 1, 5                 // bottom
+            1, 0, 3, 2, 0, 3, 1, 2,         // front
+            5, 4, 7, 6, 4, 7, 5, 6,         // back
+            3, 7, 0, 4,                     // top
+            2, 6, 1, 5                      // bottom
         };
 
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (index_w.size()+1) * sizeof(uint32_t), index_w.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    // --- VERTEX ARRAY
+    // ------ VERTEX ARRAY ------- //
+
     glGenVertexArrays(1, &this->vao);
     glBindVertexArray(this->vao);
 
@@ -123,15 +117,14 @@ Cubes::Cubes()
             glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), NULL);
 
             glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
-            glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (void*)(3*sizeof(float)));
+            glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, normal));
             
             glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
-            glVertexAttribPointer(VERTEX_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(glimac::ShapeVertex, color));
+            glVertexAttribPointer(VERTEX_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, color));
 
             glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
             glEnableVertexAttribArray(CUBES_ATTR_POSITION);
             glVertexAttribPointer(CUBES_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
-           
             // advance in the buffer at each new cube drawing
             glVertexAttribDivisor(1, 1);
         }
@@ -164,8 +157,8 @@ void Cubes::transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalM
 
 void Cubes::drawCube()
 {
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glBindVertexArray(this->vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
     glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, this->m_position.size());
     glBindVertexArray(0);
 };
@@ -180,26 +173,22 @@ void Cubes::drawCubeWireframe()
 
 void Cubes::updateGPU()
 {
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+    glBufferData(GL_ARRAY_BUFFER, this->m_vertex.size() * sizeof(ShapeVertex), this->m_vertex.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     glBindBuffer(GL_ARRAY_BUFFER, this->vbPos); 
-    glBufferData(GL_ARRAY_BUFFER, (this->m_position.size()+1) * sizeof(glm::vec3), this->m_position.size() > 0 ? &this->m_position[0] : nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, this->m_position.size() * sizeof(glm::vec3), this->m_position.size() > 0 ? &this->m_position[0] : nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 };
 
-void Cubes::editColor(int type)
+void Cubes::editColor(glm::vec4 color)
 {
-    glm::vec4 setcolor;
-    glm::vec4 color_1 = glm::vec4(0.8, 0.2, 0.3, 1.);
-    glm::vec4 color_2 = glm::vec4(0.3, 0.8, 0.2, 1.);
-    glm::vec4 color_3 = glm::vec4(0.2, 0.3, 0.8, 1.);
-
-    if (type == 1) setcolor = color_1;
-    if (type == 2) setcolor = color_2;
-    if (type == 3) setcolor = color_3;
-
     for (uint i = 0; i < m_vertex.size(); ++i)
     {
-        m_vertex[i].color = setcolor;
+        m_vertex[i].color = color;
     }
+    updateGPU();
 }  
 
 int Cubes::findCube(glm::vec3 position)
@@ -225,7 +214,6 @@ void Cubes::removeCube(glm::vec3 position)
         int lastIndex = m_position.size() - 1;
         std::swap(m_position[index], m_position[lastIndex]);
         this->m_position.pop_back();
-
         updateGPU();
     }
 };
@@ -239,7 +227,8 @@ void Cubes::addCube(glm::vec3 position)
 
 void Cubes::extrudeCube(glm::vec3 position){
     int index = 0;
-    while(index != -1){
+    while(index != -1)
+    {
         index = findCube(position);
         position.y++;
     }
@@ -249,7 +238,8 @@ void Cubes::extrudeCube(glm::vec3 position){
 
 void Cubes::digCube(glm::vec3 position){
     int index = 0;
-    while(index != -1){
+    while(index != -1)
+    {
         index = findCube(position);
         position.y++;
     }

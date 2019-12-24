@@ -38,7 +38,7 @@ class Cubes
         void drawCubeWireframe();
         void updateGPU();
         // color
-        void editColor(int type);
+        void editColor(glm::vec4 color);
         // sculpting
         int findCube(glm::vec3 position);
         void removeCube(glm::vec3 position);

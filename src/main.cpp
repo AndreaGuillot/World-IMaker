@@ -55,8 +55,11 @@ int main(int argc, char** argv)
 
     // ----------- Initialize scene
     cube.addCube(glm::vec3(0.0, -1.0, 0.0));
+    //cube.editColor(glm::vec4(0.8, 0.2, 0.3, 1.));
     cube.addCube(glm::vec3(0.0, 0.0, 0.0));
+    //cube.editColor(glm::vec4(0.3, 0.8, 0.2, 1.));
     cube.addCube(glm::vec3(0.0, 1.0, 0.0));
+    //cube.editColor(glm::vec4(0.2, 0.3, 0.8, 1.));
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
