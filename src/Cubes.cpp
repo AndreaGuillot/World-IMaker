@@ -14,8 +14,6 @@ Cubes::Cubes()
     //  |/      |/
     //  v1------v2
 
-    m_color = glm::vec4(0.8, 0.2, 0.3, 1.);
-
     std::vector<glm::vec3> cube_vertex = {
         glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.5f,  0.5f,  0.5f),     // front face
         glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.5f,  0.5f, -0.5f),     // back face
@@ -26,12 +24,12 @@ Cubes::Cubes()
     };
 
     glm::vec3 normals[] = {
-    	glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1),    // front face
-    	glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1),    // back face
-    	glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0),    // left face
-    	glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0),    // right face
-    	glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0),    // top face
-    	glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0)     // bot face
+        glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1),    // front face
+        glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1),    // back face
+        glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0),    // left face
+        glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0), glm::vec3( 1,  0,  0),    // right face
+        glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0), glm::vec3( 0,  1,  0),    // top face
+        glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0), glm::vec3( 0, -1,  0)     // bot face
     };
     
     for(size_t i = 0; i < 24; ++i)
@@ -44,8 +42,6 @@ Cubes::Cubes()
         vertex.normal = normals[i];
 
         vertex.position = cube_vertex[i];
-
-        vertex.color = m_color;
         
         this->m_vertex.push_back(vertex);
     }
