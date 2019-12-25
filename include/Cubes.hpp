@@ -39,6 +39,7 @@ class Cubes
         void drawCubeWireframe();
         void updateGPU();
         // color
+        inline std::vector<glm::vec4> getColor() const { return m_color; }
         void editColor(glm::vec3 position, glm::vec4 color);
         // sculpting
         int findCube(glm::vec3 position);

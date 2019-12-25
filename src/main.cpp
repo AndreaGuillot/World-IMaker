@@ -11,29 +11,16 @@
 #include "../include/Cubes.hpp"
 #include "../include/Curseur.hpp"
 #include "../include/ShaderProgram.hpp"
+#include "../include/Interface.hpp"
+#include "../include/GameControls.hpp"
 
 using namespace glimac;
 
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
-
 int main(int argc, char** argv)
 {
-    // Initialize SDL and open a window
-    SDLWindowManager windowManager(WINDOW_WIDTH, WINDOW_HEIGHT, "World IMaker");
+    Interface interface;
 
-    // Initialize Imgui interface
-
-    // Initialize glew for OpenGL3+ support
-    GLenum glewInitError = glewInit();
-    if(GLEW_OK != glewInitError)
-    {
-        std::cerr << glewGetErrorString(glewInitError) << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
+    displayControls();
 
     /***************************
      * THE INITIALIZATION CODE *
@@ -55,10 +42,11 @@ int main(int argc, char** argv)
 
     // ----------- Initialize scene
     cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.));
-    cube.addCube(glm::vec3(0.0, 0.0, 0.0), glm::vec4(0.3, 0.8, 0.2, 1.));
-    cube.addCube(glm::vec3(0.0, 1.0, 0.0), glm::vec4(0.2, 0.3, 0.8, 1.));
+    cube.addCube(glm::vec3(0.0, 0.0, 0.0),  glm::vec4(0.3, 0.8, 0.2, 1.));
+    cube.addCube(glm::vec3(0.0, 1.0, 0.0),  glm::vec4(0.2, 0.3, 0.8, 1.));
 
     glEnable(GL_DEPTH_TEST);
+    // transparency
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -72,13 +60,12 @@ int main(int argc, char** argv)
     glm::vec4 defaultColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
     // Application loop:
-    bool done = false;
-    while(!done) {
+    while(interface.isRunning()) {
         // Event loop:
         SDL_Event e;
-        while(windowManager.pollEvent(e)) {
+        while(SDL_PollEvent(&e)) {
             if(e.type == SDL_QUIT) {
-                done = true; // Leave the loop after this iteration
+                interface.exit(); // Leave the loop after this iteration
             }
 
             float speed = 1.f;
@@ -126,7 +113,7 @@ int main(int argc, char** argv)
             }
 
             if(e.type == SDL_MOUSEMOTION){
-                MousePos = windowManager.getMousePosition();
+                MousePos = interface.windowManager.getMousePosition();
                 if(e.button.button != 0.0){
                     camera.rotateUp((MousePosPrec.y - MousePos.y)*speedRotation);
                     camera.rotateLeft((MousePosPrec.x - MousePos.x)*speedRotation);
@@ -145,8 +132,7 @@ int main(int argc, char** argv)
          * THE RENDERING CODE *
          **********************/
 
-        glClearColor(0.0, 0.0, 0.1, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        interface.startFrame();
 
         // Draw cursor
         cursorProgram.m_program.use();
@@ -155,12 +141,11 @@ int main(int argc, char** argv)
 
         // Draw cube
         cubeProgram.m_program.use();
-        //glUniform1i(cubeProgram.uColor, 1);
         cube.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);
         cube.drawCube();
 
         // Update the display
-        windowManager.swapBuffers();
+        interface.endFrame();
     }
 
     return EXIT_SUCCESS;
