@@ -43,6 +43,7 @@ class Cubes
         void editColor(glm::vec3 position, glm::vec4 color);
         // sculpting
         int findCube(glm::vec3 position);
+        bool isCubeExist(glm::vec3 position);
         void removeCube(glm::vec3 position);
         void addCube(glm::vec3 position, glm::vec4 color);
         void extrudeCube(glm::vec3 position, glm::vec4 color);

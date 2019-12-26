@@ -26,14 +26,15 @@ Interface::Interface() : windowManager(SDLWindowManager(WINDOW_WIDTH, WINDOW_HEI
     ImGui_ImplSDL2_InitForOpenGL(windowManager.window, windowManager.openglContext);
     ImGui_ImplOpenGL3_Init("#version 330 core");
     ImGui::StyleColorsDark();
-
 }
 
 void Interface::startFrame() const
 {
-	glClearColor(0.0, 0.0, 0.1, 1.0);
+	// Clear context
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0, 0.0, 0.1, 1.0);
 
+    // Calling new frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(windowManager.window);
     ImGui::NewFrame();
@@ -41,49 +42,48 @@ void Interface::startFrame() const
 
 void Interface::editCube(Cubes &cube, Curseur &cursor) const
 {
+	// Settings
 	ImGui::SetNextWindowPos(ImVec2(10, 10));
+	ImGui::SetNextWindowSize(ImVec2(260, 230));
     
+    // Set colors
 	std::vector<glm::vec4> allColors = {glm::vec4(0.8, 0.2, 0.3, 1.0), glm::vec4(0.3, 0.8, 0.2, 1.0), glm::vec4(0.2, 0.3, 0.8, 1.0)};
 	glm::vec4 defaultColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
+	// Create menu with options
 	ImGui::Begin("Options : Cube / Colonne");
 	{
 		ImGui::Text("Choisir la couleur du cube :");
-		
-        static int selected = -1;
-		char buf[32];
-		{
+	        static int selected = -1;
+			char buf[32];
 			// color 1
-            sprintf(buf, "%d - Rouge", 1);
-            if (ImGui::Selectable(buf, selected == 0))
-            {
-                selected = 0;
-                cube.editColor(cursor.getPosition(), allColors[0]);
-            }
-            // color 2
-            sprintf(buf, "%d - Vert", 2);
-            if (ImGui::Selectable(buf, selected == 1))
-            {
-                selected = 1;
-                cube.editColor(cursor.getPosition(), allColors[1]);
-            }
-            // color 3
-            sprintf(buf, "%d - Bleu", 3);
-            if (ImGui::Selectable(buf, selected == 2))
-            {
-                selected = 2;
-                cube.editColor(cursor.getPosition(), allColors[2]);
-            }
+	        sprintf(buf, "%d - Rouge", 1);
+	        if (ImGui::Selectable(buf, selected == 0))
+	        {
+	            selected = 0;
+	            cube.editColor(cursor.getPosition(), allColors[0]);
+	        }
+	        // color 2
+	        sprintf(buf, "%d - Vert", 2);
+	        if (ImGui::Selectable(buf, selected == 1))
+	        {
+	            selected = 1;
+	            cube.editColor(cursor.getPosition(), allColors[1]);
+	        }
+	        // color 3
+	        sprintf(buf, "%d - Bleu", 3);
+	        if (ImGui::Selectable(buf, selected == 2))
+	        {
+	            selected = 2;
+	            cube.editColor(cursor.getPosition(), allColors[2]);
+	        }
 
-            if(selected == 0) defaultColor = allColors[0];
-            if(selected == 1) defaultColor = allColors[1];
-            if(selected == 2) defaultColor = allColors[2];
-		}
-
+	        if(selected == 0) defaultColor = allColors[0];
+	        if(selected == 1) defaultColor = allColors[1];
+	        if(selected == 2) defaultColor = allColors[2];
 		ImGui::Text(" ");
 
 		ImGui::Text("Action pour un cube :");
-		{
 			if (ImGui::Button("  Créer cube   "))
 			{
 				cube.addCube(cursor.getPosition(), defaultColor);
@@ -95,12 +95,9 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 			{
 				cube.removeCube(cursor.getPosition());
 			}
-		}
-
 		ImGui::Text(" ");
 		
 		ImGui::Text("Action sur une colonne :");
-		{
 			if (ImGui::Button("Extrude colonne")) {
 				glm::vec4 localizedColor = defaultColor;
 				if (cube.findCube(cursor.getPosition()) != -1) {
@@ -116,14 +113,13 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 					cube.digCube(cursor.getPosition());
 				}
 			}
-		}
-
 	}
 	ImGui::End();
 }
 
 void Interface::endFrame() const
 {
+	// Update the display
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	SDL_GL_SwapWindow(windowManager.window);
@@ -131,10 +127,12 @@ void Interface::endFrame() const
 
 Interface::~Interface()
 {
+	// Clean up ImGui
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
 
+    // Clean up SDL / OpenGL
     SDL_GL_DeleteContext(windowManager.openglContext);
     SDL_DestroyWindow(windowManager.window);
     SDL_Quit();

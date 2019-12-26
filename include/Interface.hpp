@@ -20,14 +20,16 @@ class Interface
 		SDLWindowManager windowManager;
 
 	public:
+		// constructor
 		Interface();
+		// display
 		void startFrame() const;
 		void editCube(Cubes &cube, Curseur &cursor) const;
 		void endFrame() const;
+		// destructor
 		~Interface();
 
 		inline bool isRunning() const { return m_running; }
 		inline void exit() { m_running = false; }
-
 		//inline SDLWindowManager getWindowManager() const { return windowManager; }
 };

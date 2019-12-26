@@ -208,6 +208,21 @@ int Cubes::findCube(glm::vec3 position)
     return -1;
 };
 
+bool Cubes::isCubeExist(glm::vec3 position)
+{
+    int index = findCube(position);
+    if(index == -1)
+    {
+        // not find
+        return false;
+    } 
+    else 
+    {
+        // find
+        return true;
+    }
+}
+
 void Cubes::removeCube(glm::vec3 position)
 {
     int index = findCube(position);
@@ -229,13 +244,23 @@ void Cubes::removeCube(glm::vec3 position)
 
 void Cubes::addCube(glm::vec3 position, glm::vec4 color)
 {
-    removeCube(position);
-    this->m_position.push_back(position);
-    this->m_color.push_back(color);
-    updateGPU();
+    if(isCubeExist(position))
+    {
+        std::cout << "ERREUR : Impossible de créer un nouveau cube sur un cube préexistant." << std::endl;
+    }
+    else
+    {
+        this->m_position.push_back(position);
+        this->m_color.push_back(color);
+        updateGPU();
+    }
 };
 
 void Cubes::extrudeCube(glm::vec3 position, glm::vec4 color){
+    if (findCube(position) != -1) {
+        color = getColor()[findCube(position)];
+    }
+
     int index = 0;
     while(index != -1)
     {
