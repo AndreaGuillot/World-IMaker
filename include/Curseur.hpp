@@ -1,12 +1,10 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <iostream>
-#include <glimac/glm.hpp>
 #include "Cubes.hpp"
 
 /********************************
- *      CREATE A CUBE CURSOR    *
+ *       CREATE CUBE CURSOR     *
  ********************************/
 
 class Curseur : public Cubes

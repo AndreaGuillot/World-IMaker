@@ -2,18 +2,14 @@
 
 #include <iostream>
 #include <vector>
-#include <string>
-#include <cmath>
-#include <glimac/glm.hpp>
 #include <glimac/common.hpp>
-#include <glimac/Program.hpp>
 #include "ShaderProgram.hpp"
 #include "TrackballCamera.hpp"
 
 using namespace glimac;
 
 /********************************
- *       CREATE A 3D CUBE       *
+ *        CREATE 3D CUBE        *
  ********************************/
 
 class Cubes
@@ -39,7 +35,8 @@ class Cubes
         void drawCubeWireframe();
         void updateGPU();
         // color
-        inline std::vector<glm::vec4> getColor() const { return m_color; }
+        inline std::vector<glm::vec4> getColors() const { return m_color; }
+        inline glm::vec4 getLastColor() const { return m_color[m_color.size()-1]; }
         void editColor(glm::vec3 position, glm::vec4 color);
         // sculpting
         int findCube(glm::vec3 position);

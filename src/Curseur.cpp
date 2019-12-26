@@ -1,7 +1,7 @@
 #include "../include/Curseur.hpp"
 
 /********************************
- *      CREATE A CUBE CURSOR    *
+ *       CREATE CUBE CURSOR     *
  ********************************/
 
 void Curseur::deplacement(glm::vec3 direction)

@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <glimac/Program.hpp>
-#include "glimac/glm.hpp"
+#include <glimac/glm.hpp>
 
 using namespace glimac;
 

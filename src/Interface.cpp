@@ -53,7 +53,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 	// Create menu with options
 	ImGui::Begin("Options : Cube / Colonne");
 	{
-		ImGui::Text("Choisir la couleur du cube :");
+		ImGui::Text("Modifier la couleur du cube :");
 	        static int selected = -1;
 			char buf[32];
 			// color 1
@@ -101,7 +101,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 			if (ImGui::Button("Extrude colonne")) {
 				glm::vec4 localizedColor = defaultColor;
 				if (cube.findCube(cursor.getPosition()) != -1) {
-					localizedColor = cube.getColor()[cube.findCube(cursor.getPosition())];
+					localizedColor = cube.getColors()[cube.findCube(cursor.getPosition())];
 				}
 				cube.extrudeCube(cursor.getPosition(), localizedColor);
 			}

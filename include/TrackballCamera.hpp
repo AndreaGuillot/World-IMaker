@@ -2,11 +2,10 @@
 
 #include <GL/glew.h>
 #include <iostream>
-
 #include <glimac/glm.hpp>
 
 /********************************
- *        CREATE A CAMERA       *
+ *         CREATE CAMERA        *
  ********************************/
 
 class TrackballCamera 

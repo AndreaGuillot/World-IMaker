@@ -1,7 +1,7 @@
 #include "../include/Cubes.hpp"
 
 /********************************
- *       CREATE A 3D CUBE       *
+ *        CREATE 3D CUBE        *
  ********************************/
 
 Cubes::Cubes()
@@ -258,7 +258,7 @@ void Cubes::addCube(glm::vec3 position, glm::vec4 color)
 
 void Cubes::extrudeCube(glm::vec3 position, glm::vec4 color){
     if (findCube(position) != -1) {
-        color = getColor()[findCube(position)];
+        color = getColors()[findCube(position)];
     }
 
     int index = 0;

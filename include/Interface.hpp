@@ -1,16 +1,14 @@
 #pragma  once
 
-#include <SDL2/SDL.h>
-#include <GL/glew.h>
-#include <iostream>
-#include <stdio.h>
-#include <glimac/SDLWindowManager.hpp>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_sdl.h>
+#include <glimac/SDLWindowManager.hpp>
 #include "Curseur.hpp"
 
-using namespace glimac;
+/********************************
+ *     CREATE USER INTERFACE    *
+ ********************************/
 
 class Interface
 {
@@ -28,7 +26,7 @@ class Interface
 		void endFrame() const;
 		// destructor
 		~Interface();
-
+		// loop
 		inline bool isRunning() const { return m_running; }
 		inline void exit() { m_running = false; }
 		//inline SDLWindowManager getWindowManager() const { return windowManager; }

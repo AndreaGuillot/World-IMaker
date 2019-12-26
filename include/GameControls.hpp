@@ -3,7 +3,7 @@
 #include <iostream>
 
 /********************************
- *        Game Controls       *
+ *         GAME CONTROLS        *
  ********************************/
 
 inline void displayControls()
@@ -13,8 +13,8 @@ inline void displayControls()
 	std::cout << "/////////////////////////////////////////////////" << std::endl;
     std::cout << "///////////////  COMMANDES DU JEU  //////////////" << std::endl;
     std::cout << "/////////////////////////////////////////////////" << std::endl;
-    std::cout << "Déplacer la caméra :  - Haut    : Z" 	 			 << std::endl;
-    std::cout << "                      - Bas     : S" 				 << std::endl;
+    std::cout << "Déplacer la caméra :  - Zoom +  : Z" 	 			 << std::endl;
+    std::cout << "                      - Zoom -  : S" 				 << std::endl;
     std::cout << "                      - Tourner : Souris"          << std::endl;
     std::cout << "*************************************************" << std::endl;
     std::cout << "Déplacer le curseur : - Haut   : Flèche du haut"   << std::endl;
