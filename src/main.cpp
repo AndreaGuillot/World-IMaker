@@ -134,6 +134,8 @@ int main(int argc, char** argv)
 
         interface.startFrame();
 
+        interface.editCube(cube, cursor);
+
         // Draw cursor
         cursorProgram.m_program.use();
         cursor.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);

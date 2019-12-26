@@ -146,7 +146,7 @@ void Cubes::getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatri
 void Cubes::transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, const TrackballCamera &camera) const
 {   
     glm::mat4 ViewMatrix = camera.getViewMatrix();
-    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 4.f/3.f, 0.1f, 100.f);
+    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 5.f/4.f, 0.1f, 100.f);
     glm::mat4 MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
     glm::vec3 lightDir = glm::vec3(1.f, 1.f, 1.f);
