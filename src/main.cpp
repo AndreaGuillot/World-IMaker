@@ -96,6 +96,12 @@ int main(int argc, char** argv)
                         break;
                         case SDLK_SPACE : cube.addCube(cursor.getPosition(), cube.getLastColor());
                         break;
+                        case SDLK_c : cube.addCube(cursor.getPosition(), glm::vec4(0.8, 0.2, 0.3, 1.0));
+                        break;
+                        case SDLK_v : cube.addCube(cursor.getPosition(), glm::vec4(0.3, 0.8, 0.2, 1.0));
+                        break;
+                        case SDLK_b : cube.addCube(cursor.getPosition(), glm::vec4(0.2, 0.3, 0.8, 1.0));
+                        break;
                         case SDLK_DELETE : cube.removeCube(cursor.getPosition());
                         break;
                         case SDLK_e : cube.extrudeCube(cursor.getPosition(), cube.getLastColor());
