@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <vector>
+#include <ostream>
+#include <fstream>
 #include <glimac/common.hpp>
 
 using namespace glimac;
@@ -41,6 +43,8 @@ class Cubes
         void addCube(glm::vec3 position, glm::vec4 color);
         void extrudeCube(glm::vec3 position, glm::vec4 color);
         void digCube(glm::vec3 position);
+        // save
+        void saveWorld(const std::string filePath, const std::string &filename);
         // delete data
         void deleteData();
         // destructor

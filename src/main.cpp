@@ -32,8 +32,8 @@ int main(int argc, char** argv)
 
     // ----------- Shaders
     FilePath applicationPath(argv[0]);
-    ShaderProgram cubeProgram(applicationPath, "ColorCube.fs.glsl");
-    ShaderProgram cursorProgram(applicationPath, "ColorCursor.fs.glsl");
+    ShaderProgram cubeProgram(applicationPath, "Cube.fs.glsl");
+    ShaderProgram cursorProgram(applicationPath, "Cursor.fs.glsl");
 
     // ----------- Initialize scene
     cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.));

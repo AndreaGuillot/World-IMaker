@@ -27,5 +27,4 @@ class ShaderProgram
         ~ShaderProgram() = default;
         void useProgram();
         void createViewMatrix(const TrackballCamera &camera) const;
-
 };

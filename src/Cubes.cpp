@@ -23,7 +23,16 @@ Cubes::Cubes()
         glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f, -0.5f)      // bot face
     };
 
-    glm::vec3 normals[] = {
+    glm::vec2 cube_texCoords[] = {
+        glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 0),     // front face
+        glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 0),     // back face
+        glm::vec2(0, 0), glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(0, 1),     // left face
+        glm::vec2(1, 0), glm::vec2(1, 0), glm::vec2(1, 1), glm::vec2(1, 1),     // right face
+        glm::vec2(0, 0), glm::vec2(0, 0), glm::vec2(1, 0), glm::vec2(1, 0),     // top face
+        glm::vec2(0, 1), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 1)      // bot face
+    };
+
+    glm::vec3 cube_normals[] = {
         glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1), glm::vec3( 0,  0,  1),    // front face
         glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1), glm::vec3( 0,  0, -1),    // back face
         glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0), glm::vec3(-1,  0,  0),    // left face
@@ -36,10 +45,10 @@ Cubes::Cubes()
     {
         ShapeVertex vertex;
         
-        vertex.texCoords.x = 0;
-        vertex.texCoords.y = 1;
+        vertex.texCoords.x = cube_texCoords[i].x;
+        vertex.texCoords.y = cube_texCoords[i].y;
 
-        vertex.normal = normals[i];
+        vertex.normal = cube_normals[i];
 
         vertex.position = cube_vertex[i];
         
@@ -107,10 +116,11 @@ Cubes::Cubes()
 
         // Activation - Specification
         {
-            const GLuint VERTEX_ATTR_POSITION = 0;
-            const GLuint CUBES_ATTR_POSITION = 1;
-            const GLuint VERTEX_ATTR_NORMAL = 2;
-            const GLuint VERTEX_ATTR_COLOR = 3;
+            const GLuint VERTEX_ATTR_POSITION   = 0;
+            const GLuint VERTEX_ATTR_NORMAL     = 1;
+            const GLuint VERTEX_ATTR_TEXCOORDS  = 2;
+            const GLuint CUBES_ATTR_POSITION    = 3;
+            const GLuint CUBES_ATTR_COLOR       = 4;
 
             glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
             glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
@@ -119,20 +129,33 @@ Cubes::Cubes()
             glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
             glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, normal));
 
+            glEnableVertexAttribArray(VERTEX_ATTR_TEXCOORDS);
+            glVertexAttribPointer(VERTEX_ATTR_TEXCOORDS, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, texCoords));
+
             glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
             glEnableVertexAttribArray(CUBES_ATTR_POSITION);
             glVertexAttribPointer(CUBES_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
             // advance in the buffer at each new cube drawing
-            glVertexAttribDivisor(1, 1);
+            glVertexAttribDivisor(CUBES_ATTR_POSITION, 1);
 
             glBindBuffer(GL_ARRAY_BUFFER, this->vbCol);
-            glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
-            glVertexAttribPointer(VERTEX_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
-            glVertexAttribDivisor(3, 1);
+            glEnableVertexAttribArray(CUBES_ATTR_COLOR);
+            glVertexAttribPointer(CUBES_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
+            glVertexAttribDivisor(CUBES_ATTR_COLOR, 1);
         }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+Cubes::~Cubes()
+{
+    glDeleteBuffers(1, &this->vbo);
+    glDeleteBuffers(1, &this->vbPos);
+    glDeleteBuffers(1, &this->vbCol);
+    glDeleteBuffers(1, &this->ibo);
+    glDeleteBuffers(1, &this->iboWireframe);
+    glDeleteVertexArrays(1, &this->vao);
 }
 
 void Cubes::drawCube()
@@ -260,12 +283,25 @@ void Cubes::digCube(glm::vec3 position){
     removeCube(position);
 }
 
-Cubes::~Cubes()
+void Cubes::saveWorld(const std::string filePath, const std::string &filename)
 {
-    glDeleteBuffers(1, &this->vbo);
-    glDeleteBuffers(1, &this->vbPos);
-    glDeleteBuffers(1, &this->vbCol);
-    glDeleteBuffers(1, &this->ibo);
-    glDeleteBuffers(1, &this->iboWireframe);
-    glDeleteVertexArrays(1, &this->vao);
+    //open file
+    std::ofstream file;
+    file.open(filePath + filename);
+
+    if(file) {
+        file << m_position.size() << std::endl;
+        file << m_color.size() << std::endl;
+        for(size_t i = 0; i < m_position.size(); ++i)
+        {
+            file << m_position[i] << " ";
+            file << m_color[i] << std::endl;
+        }
+        std::cout << "Sauvegardé !" << std::endl; 
+        file.close();
+    }
+    else
+    {
+        std::cerr << "ERREUR : Impossible de créer le fichier " << filename << "." << std::endl;
+    }
 }

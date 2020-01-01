@@ -44,7 +44,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 {
 	// Settings
 	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	ImGui::SetNextWindowSize(ImVec2(260, 230));
+	ImGui::SetNextWindowSize(ImVec2(260, 260));
     
     // Set colors
 	std::vector<glm::vec4> allColors = {glm::vec4(0.8, 0.2, 0.3, 1.0), glm::vec4(0.3, 0.8, 0.2, 1.0), glm::vec4(0.2, 0.3, 0.8, 1.0)};
@@ -52,7 +52,20 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 
 	// Create menu with options
 	ImGui::Begin("Options : Cube / Colonne");
-	{
+
+		if (ImGui::Button("  Sauvegarder  "))
+			{
+				cube.saveWorld("/home/andrea/Documents/", "test");
+			}
+
+			ImGui::SameLine();
+
+		if (ImGui::Button("    Charger    "))
+		{
+			//cube.loadWorld("../doc/", "test");
+		}
+		ImGui::Text(" ");
+
 		ImGui::Text("Modifier la couleur du cube :");
 	        static int selected = -1;
 			char buf[32];
@@ -113,7 +126,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 					cube.digCube(cursor.getPosition());
 				}
 			}
-	}
+		
 	ImGui::End();
 }
 
