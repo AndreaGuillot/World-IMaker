@@ -5,6 +5,10 @@
 #include <ostream>
 #include <fstream>
 #include <glimac/common.hpp>
+#include <eigen3/Eigen/Dense>
+
+#include "../include/RadialBasisFunctions.hpp"
+#define WORLD_TAILLE 40
 
 using namespace glimac;
 
@@ -43,6 +47,8 @@ class Cubes
         void addCube(glm::vec3 position, glm::vec4 color);
         void extrudeCube(glm::vec3 position, glm::vec4 color);
         void digCube(glm::vec3 position);
+        //Procedural generation
+        void loadWorld();
         // save
         void saveWorld(const std::string filePath, const std::string &filename);
         // delete data

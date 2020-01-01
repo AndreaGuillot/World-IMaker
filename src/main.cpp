@@ -39,6 +39,7 @@ int main(int argc, char** argv)
     cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.));
     cube.addCube(glm::vec3(0.0, 0.0, 0.0),  glm::vec4(0.3, 0.8, 0.2, 1.));
     cube.addCube(glm::vec3(0.0, 1.0, 0.0),  glm::vec4(0.2, 0.3, 0.8, 1.));
+    cube.loadWorld();
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);

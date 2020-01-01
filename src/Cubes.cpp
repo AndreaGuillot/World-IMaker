@@ -305,3 +305,27 @@ void Cubes::saveWorld(const std::string filePath, const std::string &filename)
         std::cerr << "ERREUR : Impossible de créer le fichier " << filename << "." << std::endl;
     }
 }
+
+void Cubes::loadWorld(){
+    Eigen::MatrixXd map(WORLD_TAILLE, WORLD_TAILLE);
+
+    const int nbPoints = 3;
+
+    Eigen::MatrixXf ControlPoints(nbPoints, 2);
+    ControlPoints << 29.f, 29.f, 
+                    32.f, 32.f, 
+                    24.f, 12.f;
+    Eigen::VectorXf values(nbPoints);
+    values << 6.f, 10.f, 5.f;
+
+    map = getMap(ControlPoints, values);
+
+    for(int x=0; x<WORLD_TAILLE; x++){
+        for(int z=0; z<WORLD_TAILLE; z++){
+            for(int y=0; y <= map(x, z); y++){
+                if(map(x,z) != 0)
+                    addCube(glm::vec3 (x-WORLD_TAILLE/2, y, z-WORLD_TAILLE/2), glm::vec4 (1, 0, 0, 1));
+            }
+        }
+    }
+}
