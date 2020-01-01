@@ -3,8 +3,6 @@
 #include <iostream>
 #include <vector>
 #include <glimac/common.hpp>
-#include "ShaderProgram.hpp"
-#include "TrackballCamera.hpp"
 
 using namespace glimac;
 
@@ -29,8 +27,6 @@ class Cubes
         // constructor
         Cubes();
         // draw
-        void getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &object);
-        void transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, const TrackballCamera &camera) const;
         void drawCube();
         void drawCubeWireframe();
         void updateGPU();

@@ -35,12 +35,6 @@ int main(int argc, char** argv)
     ShaderProgram cubeProgram(applicationPath, "ColorCube.fs.glsl");
     ShaderProgram cursorProgram(applicationPath, "ColorCursor.fs.glsl");
 
-    // ----------- Uniform locations
-    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
-    GLint uLightDir;
-    cube.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, cubeProgram);
-    cursor.getLocation(uMVPMatrix, uMVMatrix, uNormalMatrix, cursorProgram);
-
     // ----------- Initialize scene
     cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.));
     cube.addCube(glm::vec3(0.0, 0.0, 0.0),  glm::vec4(0.3, 0.8, 0.2, 1.));
@@ -137,13 +131,13 @@ int main(int argc, char** argv)
         interface.editCube(cube, cursor);
 
         // Draw cursor
-        cursorProgram.m_program.use();
-        cursor.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);
+        cursorProgram.useProgram();
+        cursorProgram.createViewMatrix(camera);
         cursor.drawCurseur();
 
         // Draw cube
-        cubeProgram.m_program.use();
-        cube.transformMatrix(uMVPMatrix, uMVMatrix, uNormalMatrix, uLightDir, camera);
+        cubeProgram.useProgram();
+        cubeProgram.createViewMatrix(camera);
         cube.drawCube();
 
         // Update the display

@@ -135,28 +135,6 @@ Cubes::Cubes()
     glBindVertexArray(0);
 }
 
-void Cubes::getLocation(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, ShaderProgram &object)
-{
-    uMVPMatrix = glGetUniformLocation(object.m_program.getGLId(), "uMVPMatrix");
-    uMVMatrix = glGetUniformLocation(object.m_program.getGLId(), "uMVMatrix");
-    uNormalMatrix = glGetUniformLocation(object.m_program.getGLId(), "uNormalMatrix");
-    //uLightDir = glGetUniformLocation(object.m_program.getGLId(), "uLightDir");
-}
-
-void Cubes::transformMatrix(GLint &uMVPMatrix, GLint &uMVMatrix, GLint &uNormalMatrix, GLint &uLightDir, const TrackballCamera &camera) const
-{   
-    glm::mat4 ViewMatrix = camera.getViewMatrix();
-    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), 5.f/4.f, 0.1f, 100.f);
-    glm::mat4 MVMatrix = glm::translate(ViewMatrix, glm::vec3(0.f,0.f,0.f));
-    glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
-    glm::vec3 lightDir = glm::vec3(1.f, 1.f, 1.f);
-    
-    glUniformMatrix4fv(uMVMatrix, 1, GL_FALSE, glm::value_ptr(MVMatrix));
-    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
-    glUniformMatrix4fv(uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
-    glUniform3fv(uLightDir, 1, glm::value_ptr(lightDir));
-}
-
 void Cubes::drawCube()
 {
     glBindVertexArray(this->vao);

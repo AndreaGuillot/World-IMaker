@@ -4,6 +4,7 @@
 #include <iostream>
 #include <glimac/Program.hpp>
 #include <glimac/glm.hpp>
+#include "TrackballCamera.hpp"
 
 using namespace glimac;
 
@@ -11,19 +12,20 @@ using namespace glimac;
  *        GENERATE SHADERS      *
  ********************************/
 
-struct ShaderProgram
+class ShaderProgram
 {
-    Program m_program;
+    private:
+        Program m_program;
+        GLint m_uMVPMatrix;
+        GLint m_uMVMatrix;
+        GLint m_uNormalMatrix;
+        GLint m_uLightDir;
+        GLint m_uTexture;
 
-    GLint uMVPMatrix, uMVMatrix, uNormalMatrix;
-    GLint uLightDir, uColor;
+    public:
+        ShaderProgram(const FilePath &applicationPath, std::string object);
+        ~ShaderProgram() = default;
+        void useProgram();
+        void createViewMatrix(const TrackballCamera &camera) const;
 
-    ShaderProgram(const FilePath &applicationPath, std::string object)
-        : m_program(loadProgram(applicationPath.dirPath() + "../shaders/3D.vs.glsl", applicationPath.dirPath() + "../shaders" + object))
-    {
-        uMVPMatrix = glGetUniformLocation(m_program.getGLId(), "uMVPMatrix");
-        uMVMatrix = glGetUniformLocation(m_program.getGLId(), "uMVMatrix");
-        uNormalMatrix = glGetUniformLocation(m_program.getGLId(), "uNormalMatrix");
-        uLightDir = glGetUniformLocation(m_program.getGLId(), "uLightDir");
-    }
 };
