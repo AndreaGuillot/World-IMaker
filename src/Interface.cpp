@@ -44,7 +44,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 {
 	// Settings
 	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	ImGui::SetNextWindowSize(ImVec2(260, 260));
+	ImGui::SetNextWindowSize(ImVec2(260, 310));
     
     // Set colors
 	std::vector<glm::vec4> allColors = {glm::vec4(0.8, 0.2, 0.3, 1.0), glm::vec4(0.3, 0.8, 0.2, 1.0), glm::vec4(0.2, 0.3, 0.8, 1.0)};
@@ -54,15 +54,25 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 	ImGui::Begin("Options : Cube / Colonne");
 
 		if (ImGui::Button("  Sauvegarder  "))
-			{
-				cube.saveWorld("/home/andrea/Documents/", "test");
-			}
+		{
+			std::string filename, filepath;
+			std::cout << "Nom du fichier (ex : test) : ";
+			std::cin >> filename;
+			std::cout << "Emplacement (ex : /home/user/Documents/) : ";
+			std::cin >> filepath;
+			cube.saveScene(filepath, filename);
+		}
 
-			ImGui::SameLine();
+		ImGui::SameLine();
 
 		if (ImGui::Button("    Charger    "))
 		{
-			//cube.loadWorld("../doc/", "test");
+			std::string filename, filepath;
+			std::cout << "Nom du fichier (ex : test) : ";
+			std::cin >> filename;
+			std::cout << "Emplacement (ex : /home/user/Documents/) : ";
+			std::cin >> filepath;
+			cube.loadScene(filepath, filename);
 		}
 		ImGui::Text(" ");
 
@@ -125,6 +135,13 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 				if (cube.findCube(cursor.getPosition()) != -1) {
 					cube.digCube(cursor.getPosition());
 				}
+			}
+		ImGui::Text(" ");
+
+		ImGui::Text("Génération procédurale :");
+			if (ImGui::Button("Montagnes"))
+			{
+				cube.loadWorld();
 			}
 		
 	ImGui::End();

@@ -11,7 +11,7 @@ inline void displayControls()
 	std::cout << std::endl;
 
 	std::cout << "/////////////////////////////////////////////////" << std::endl;
-    std::cout << "///////////////  COMMANDES DU JEU  //////////////" << std::endl;
+    std::cout << "//////////////////   COMMANDES   ////////////////" << std::endl;
     std::cout << "/////////////////////////////////////////////////" << std::endl;
     std::cout << "Déplacer la caméra :  - Zoom +  : Z" 	 			 << std::endl;
     std::cout << "                      - Zoom -  : S" 				 << std::endl;

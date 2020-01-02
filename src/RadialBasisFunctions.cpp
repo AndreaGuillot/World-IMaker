@@ -1,11 +1,16 @@
 #include "../include/RadialBasisFunctions.hpp"
 
-float phi(const float a){
+/*********************************
+ *  RBF : PROCEDURAL GENERATION  *
+ *********************************/
+
+float phi(const float a)
+{
     return exp(-0.2*a*a);
 }
 
-Eigen::VectorXf findOmega (const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf values){
-
+Eigen::VectorXf findOmega (const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf values)
+{
     Eigen::MatrixXf A = Eigen::MatrixXf::Zero(ControlPoints.rows(), ControlPoints.rows());
     for(int i=0; i<A.rows(); ++i){
         for(int j=0; j<A.cols(); ++j){
@@ -17,8 +22,8 @@ Eigen::VectorXf findOmega (const Eigen::MatrixXf ControlPoints, const Eigen::Vec
     return A.inverse() * values;
 }
 
-int findValue(const int i, const int j, const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf w){
-
+int findValue(const int i, const int j, const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf w)
+{
     float value = 0;
     Eigen::VectorXf point(2);
     point << i, j;
@@ -29,11 +34,11 @@ int findValue(const int i, const int j, const Eigen::MatrixXf ControlPoints, con
             );
     }
     return round(value);
-
 }
 
 
-Eigen::MatrixXd getMap(const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf valeurs){
+Eigen::MatrixXd getMap(const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf valeurs)
+{
     Eigen::VectorXf w = findOmega(ControlPoints, valeurs);
     Eigen::MatrixXd map = Eigen::MatrixXd::Zero(WORLD_TAILLE, WORLD_TAILLE);
 

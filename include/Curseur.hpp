@@ -14,8 +14,9 @@ class Curseur : public Cubes
 		glm::vec4 m_colorCursor;
 
 	public :
-		// constructor
+		// initialization
 		Curseur() : m_posCursor(0.0f, 0.0f, 0.0f), m_colorCursor(1.f, 1.f, 1.f, 1.f) { addCube(m_posCursor, m_colorCursor); }
+		~Curseur() = default;
 		// draw
 		void drawCurseur();
 		// movement
@@ -23,5 +24,4 @@ class Curseur : public Cubes
 		void onKeyPressed(SDL_Event e);
 		glm::vec3 getPosition() const { return m_posCursor; }
 		// destructor
-		~Curseur() = default;
 };

@@ -8,9 +8,10 @@
 #include <eigen3/Eigen/Dense>
 
 #include "../include/RadialBasisFunctions.hpp"
-#define WORLD_TAILLE 40
 
 using namespace glimac;
+
+#define WORLD_TAILLE 40
 
 /********************************
  *        CREATE 3D CUBE        *
@@ -30,29 +31,29 @@ class Cubes
         GLuint iboWireframe;
 
     public:
-        // constructor
+        // initialization
         Cubes();
+        ~Cubes();
         // draw
         void drawCube();
         void drawCubeWireframe();
         void updateGPU();
         // color
+        void editColor(glm::vec3 position, glm::vec4 color);
         inline std::vector<glm::vec4> getColors() const { return m_color; }
         inline glm::vec4 getLastColor() const { return m_color[m_color.size()-1]; }
-        void editColor(glm::vec3 position, glm::vec4 color);
         // sculpting
-        int findCube(glm::vec3 position);
+        int  findCube(glm::vec3 position);
         bool isCubeExist(glm::vec3 position);
         void removeCube(glm::vec3 position);
         void addCube(glm::vec3 position, glm::vec4 color);
         void extrudeCube(glm::vec3 position, glm::vec4 color);
         void digCube(glm::vec3 position);
-        //Procedural generation
+        // procedural generation
         void loadWorld();
-        // save
-        void saveWorld(const std::string filePath, const std::string &filename);
-        // delete data
+        // save - load
+        void saveScene(const std::string &filePath, const std::string &filename);
+        void loadScene(const std::string &filePath, const std::string &filename);
+        // delete all data
         void deleteData();
-        // destructor
-        ~Cubes();
 };

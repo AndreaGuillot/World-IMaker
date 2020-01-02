@@ -247,7 +247,7 @@ void Cubes::addCube(glm::vec3 position, glm::vec4 color)
 {
     if(isCubeExist(position))
     {
-        std::cout << "ERREUR : Impossible de créer un nouveau cube sur un cube préexistant." << std::endl;
+        std::cerr << "ERREUR : Impossible de créer un nouveau cube sur un cube préexistant." << std::endl;
     }
     else
     {
@@ -283,26 +283,61 @@ void Cubes::digCube(glm::vec3 position){
     removeCube(position);
 }
 
-void Cubes::saveWorld(const std::string filePath, const std::string &filename)
+void Cubes::saveScene(const std::string &filePath, const std::string &filename)
 {
-    //open file
-    std::ofstream file;
-    file.open(filePath + filename);
+    std::ofstream file(filePath + filename);
 
-    if(file) {
+    if(file)
+    {
         file << m_position.size() << std::endl;
-        file << m_color.size() << std::endl;
         for(size_t i = 0; i < m_position.size(); ++i)
         {
-            file << m_position[i] << " ";
-            file << m_color[i] << std::endl;
+            file << m_position[i].x << " ";
+            file << m_position[i].y << " ";
+            file << m_position[i].z << " ";
+            file << m_color[i].r    << " ";
+            file << m_color[i].g    << " ";
+            file << m_color[i].b    << " ";
+            file << m_color[i].a    << std::endl;
         }
-        std::cout << "Sauvegardé !" << std::endl; 
+        std::cout << "Scène auvegardée !" << std::endl; 
         file.close();
     }
     else
     {
         std::cerr << "ERREUR : Impossible de créer le fichier " << filename << "." << std::endl;
+    }
+}
+
+void Cubes::loadScene(const std::string &filePath, const std::string &filename)
+{
+    std::ifstream file(filePath + filename);
+
+    if(file)
+    {
+        size_t nbCubes;
+        file >> nbCubes;
+        std::vector<glm::vec3> position(nbCubes);
+        std::vector<glm::vec4> color(nbCubes);
+        for(size_t i = 0; i < nbCubes; ++i)
+        { 
+            file >> position[i].x;
+            file >> position[i].y;
+            file >> position[i].z;
+            file >> color[i].r;
+            file >> color[i].g;
+            file >> color[i].b;
+            file >> color[i].a;
+        }
+        std::cout << "Scène chargée !" << std::endl; 
+        file.close();
+        m_position = position;
+        m_color = color;
+        updateGPU();
+    }
+    else
+    {
+        std::cerr << "ERREUR : Impossible d'ouvrir le fichier " << filename << "." << std::endl;
     }
 }
 

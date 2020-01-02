@@ -16,12 +16,13 @@ class TrackballCamera
         float m_fAngleY;    // angle around the yAxis (rotation right/left)
 
     public:
-    	// constructor
+    	// initialization
         TrackballCamera() :
             m_fDistance(5.f),
             m_fAngleX(0.f),
             m_fAngleY(0.f)
             {};
+        ~TrackballCamera() = default;
         // get value
         float get_fDistance(){
             return this->m_fDistance;
@@ -51,6 +52,4 @@ class TrackballCamera
             ViewMatrix = glm::rotate(ViewMatrix, glm::radians(this->m_fAngleY), glm::vec3(0.f,1.f,0.f));
             return ViewMatrix;
         }
-        // destructor
-        ~TrackballCamera() = default;
 };
