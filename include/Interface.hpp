@@ -5,6 +5,7 @@
 #include <imgui/imgui_impl_sdl.h>
 #include <glimac/SDLWindowManager.hpp>
 #include "Curseur.hpp"
+#include "Map.hpp"
 
 /********************************
  *     CREATE USER INTERFACE    *
@@ -23,7 +24,8 @@ class Interface
 		~Interface();
 		// display
 		void startFrame() const;
-		void editCube(Cubes &cube, Curseur &cursor) const;
+		void editCube(Cubes &cube, Curseur &cursor, Map &map) const;
+		void editMap(Cubes &cube, Map &map, glm::vec4 defaultColor) const;
 		void endFrame() const;
 		// loop
 		inline bool isRunning() const { return m_running; }

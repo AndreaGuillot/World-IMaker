@@ -13,6 +13,8 @@
 #include "../include/ShaderProgram.hpp"
 #include "../include/Interface.hpp"
 #include "../include/GameControls.hpp"
+#include "../include/Map.hpp"
+
 //#include "../include/Texture.hpp"
 
 using namespace glimac;
@@ -30,6 +32,7 @@ int main(int argc, char** argv)
 
     Cubes cube;
     Curseur cursor;
+    Map map;
 
     // ----------- Shaders
     FilePath applicationPath(argv[0]);
@@ -129,7 +132,7 @@ int main(int argc, char** argv)
         interface.startFrame();
 
         // Calling ImGui menu 
-        interface.editCube(cube, cursor);
+        interface.editCube(cube, cursor, map);
 
         // Draw cursor
         cursorProgram.useProgram();

@@ -7,7 +7,7 @@
 #include <glimac/common.hpp>
 #include <eigen3/Eigen/Dense>
 
-#include "../include/RadialBasisFunctions.hpp"
+#include "RadialBasisFunctions.hpp"
 
 using namespace glimac;
 
@@ -50,7 +50,7 @@ class Cubes
         void extrudeCube(glm::vec3 position, glm::vec4 color);
         void digCube(glm::vec3 position);
         // procedural generation
-        void loadWorld();
+        //void loadWorld();
         // save - load
         void saveScene(const std::string &filePath, const std::string &filename);
         void loadScene(const std::string &filePath, const std::string &filename);

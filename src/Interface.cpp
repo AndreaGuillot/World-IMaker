@@ -40,11 +40,11 @@ void Interface::startFrame() const
     ImGui::NewFrame();
 }
 
-void Interface::editCube(Cubes &cube, Curseur &cursor) const
+void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
 {
 	// Settings
 	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	ImGui::SetNextWindowSize(ImVec2(260, 310));
+	ImGui::SetNextWindowSize(ImVec2(260, 270));
     
     // Set colors
 	std::vector<glm::vec4> allColors = {glm::vec4(0.8, 0.2, 0.3, 1.0), glm::vec4(0.3, 0.8, 0.2, 1.0), glm::vec4(0.2, 0.3, 0.8, 1.0)};
@@ -137,14 +137,56 @@ void Interface::editCube(Cubes &cube, Curseur &cursor) const
 				}
 			}
 		ImGui::Text(" ");
-
-		ImGui::Text("Génération procédurale :");
-			if (ImGui::Button("Montagnes"))
-			{
-				cube.loadWorld();
-			}
+		editMap(cube, map, defaultColor);
 		
 	ImGui::End();
+}
+
+void Interface::editMap(Cubes &cube, Map &map, glm::vec4 defaultColor) const
+{
+	// Settings
+	ImGui::SetNextWindowPos(ImVec2(10, 280));
+	ImGui::SetNextWindowSize(ImVec2(260, 185));
+
+	// Create menu with options
+	ImGui::Begin("Génération procédurale :");
+		static int flag = 0;
+		if (ImGui::Button("    Activer    ")){
+			map.loadWorld(cube, defaultColor);
+			flag = 1;
+			std::cout<< "Génération procédurale activée"<<std::endl;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("   Désactiver   ")){
+			map.clearWorld(cube);
+			flag = 0;
+			std::cout<< "Génération procédurale désactivée"<<std::endl;
+		}
+
+		ImGui::Text(" ");
+		ImGui::Text("Action sur un point de controle :");
+		static int poids = 0, x = 40, z = 40;
+		ImGui::InputInt("Position x", &x);
+		ImGui::InputInt("Position z", &z);
+		ImGui::InputInt("Poids", &poids);
+
+		if (ImGui::Button("    Ajouter    ")){
+			if((x < 41) && (x > -1) && (z < 41) && (z > -1) && (poids > 0) && (poids < 41))
+				map.addControlPoint(x, z, poids);
+			else 
+				std::cerr<< "ERREUR : vos valeurs doivent se situer entre 0 et 40"<<std::endl;
+			if (flag == 1)
+				map.loadWorld(cube, defaultColor);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("   Supprimer   ")){
+			map.removeControlPoint((float)x, (float)z);
+			if (flag == 1)
+				map.loadWorld(cube, defaultColor);
+		}
+
+	ImGui::End();
+
 }
 
 void Interface::endFrame() const

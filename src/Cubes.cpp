@@ -341,7 +341,7 @@ void Cubes::loadScene(const std::string &filePath, const std::string &filename)
     }
 }
 
-void Cubes::loadWorld(){
+/*void Cubes::loadWorld(){
     Eigen::MatrixXd map(WORLD_TAILLE, WORLD_TAILLE);
 
     const int nbPoints = 3;
@@ -363,4 +363,4 @@ void Cubes::loadWorld(){
             }
         }
     }
-}
+}*/
