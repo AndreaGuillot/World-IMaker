@@ -74,20 +74,6 @@ int main(int argc, char** argv)
                 case(SDL_KEYDOWN) : cursor.onKeyPressed(e);
                     switch(e.key.keysym.sym)
                     {
-                        /*
-                        //Up arrow key
-                        case SDLK_UP : camera.rotateUp(speed);
-                        break;
-                        //Down arrow key
-                        case SDLK_DOWN: camera.rotateUp(-speed);
-                        break;
-                        //Left arrow key
-                        case SDLK_LEFT: camera.rotateLeft(speed);
-                        break;
-                        //Right arrow key
-                        case SDLK_RIGHT: camera.rotateLeft(-speed);
-                        break;
-                        */
                         case SDLK_z : camera.moveFront(speed);
                         break;
                         case SDLK_s : camera.moveFront(-speed);

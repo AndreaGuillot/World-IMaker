@@ -49,8 +49,6 @@ class Cubes
         void addCube(glm::vec3 position, glm::vec4 color);
         void extrudeCube(glm::vec3 position, glm::vec4 color);
         void digCube(glm::vec3 position);
-        // procedural generation
-        //void loadWorld();
         // save - load
         void saveScene(const std::string &filePath, const std::string &filename);
         void loadScene(const std::string &filePath, const std::string &filename);
