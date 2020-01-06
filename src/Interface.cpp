@@ -49,6 +49,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
     // Set colors
 	std::vector<glm::vec4> allColors = {glm::vec4(0.8, 0.2, 0.3, 1.0), glm::vec4(0.3, 0.8, 0.2, 1.0), glm::vec4(0.2, 0.3, 0.8, 1.0)};
 	glm::vec4 defaultColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+	int defaultType = 0;
 
 	// Create menu with options
 	ImGui::Begin("Options : Cube / Colonne");
@@ -109,7 +110,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
 		ImGui::Text("Action pour un cube :");
 			if (ImGui::Button("  Créer cube   "))
 			{
-				cube.addCube(cursor.getPosition(), defaultColor);
+				cube.addCube(cursor.getPosition(), defaultColor, defaultType);
 			}
 
 			ImGui::SameLine();
@@ -123,10 +124,11 @@ void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
 		ImGui::Text("Action sur une colonne :");
 			if (ImGui::Button("Extrude colonne")) {
 				glm::vec4 localizedColor = defaultColor;
+				int localizedType = defaultType;
 				if (cube.findCube(cursor.getPosition()) != -1) {
 					localizedColor = cube.getColors()[cube.findCube(cursor.getPosition())];
 				}
-				cube.extrudeCube(cursor.getPosition(), localizedColor);
+				cube.extrudeCube(cursor.getPosition(), localizedColor, localizedType);
 			}
 
 			ImGui::SameLine();

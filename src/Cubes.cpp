@@ -5,7 +5,10 @@
  ********************************/
 
 Cubes::Cubes()
+    : m_type(1)
 {
+    texture = addTexture();
+
     //    v4----- v7
     //   /|      /|
     //  v0------v3|
@@ -25,11 +28,11 @@ Cubes::Cubes()
 
     glm::vec2 cube_texCoords[] = {
         glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 0),     // front face
-        glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 0),     // back face
-        glm::vec2(0, 0), glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(0, 1),     // left face
-        glm::vec2(1, 0), glm::vec2(1, 0), glm::vec2(1, 1), glm::vec2(1, 1),     // right face
-        glm::vec2(0, 0), glm::vec2(0, 0), glm::vec2(1, 0), glm::vec2(1, 0),     // top face
-        glm::vec2(0, 1), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 1)      // bot face
+        glm::vec2(1, 0), glm::vec2(1, 1), glm::vec2(0, 1), glm::vec2(0, 0),     // back face
+        glm::vec2(0, 0), glm::vec2(1, 0), glm::vec2(1, 1), glm::vec2(0, 1),     // left face
+        glm::vec2(1, 0), glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1),     // right face
+        glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 0),     // top face
+        glm::vec2(1, 1), glm::vec2(1, 0), glm::vec2(0, 0), glm::vec2(0, 1)      // bot face
     };
 
     glm::vec3 cube_normals[] = {
@@ -45,37 +48,36 @@ Cubes::Cubes()
     {
         ShapeVertex vertex;
         
-        vertex.texCoords.x = cube_texCoords[i].x;
-        vertex.texCoords.y = cube_texCoords[i].y;
+        vertex.texCoords = cube_texCoords[i];
 
         vertex.normal = cube_normals[i];
 
         vertex.position = cube_vertex[i];
         
-        this->m_vertex.push_back(vertex);
+        m_vertex.push_back(vertex);
     }
 
     // --------------------------- //
 
     // ------ VERTEX BUFFER ------ //
 
-    glGenBuffers(1, &this->vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-    glBufferData(GL_ARRAY_BUFFER, this->m_vertex.size() * sizeof(ShapeVertex), this->m_vertex.data(), GL_STATIC_DRAW);
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, m_vertex.size() * sizeof(ShapeVertex), m_vertex.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glGenBuffers(1, &this->vbPos);
-    glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
+    glGenBuffers(1, &vbPos);
+    glBindBuffer(GL_ARRAY_BUFFER, vbPos);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glGenBuffers(1, &this->vbCol);
-    glBindBuffer(GL_ARRAY_BUFFER, this->vbCol);
+    glGenBuffers(1, &vbCol);
+    glBindBuffer(GL_ARRAY_BUFFER, vbCol);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // ------ INDEX BUFFER ------- //
 
-    glGenBuffers(1, &this->ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
         // Index table
         std::vector<uint32_t> index = {
@@ -92,8 +94,8 @@ Cubes::Cubes()
 
     // -- INDEX BUFFER WIREFRAME -- //
 
-    glGenBuffers(1, &this->iboWireframe);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
+    glGenBuffers(1, &iboWireframe);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboWireframe);
 
         // Index table
         std::vector<uint32_t> index_w = {
@@ -115,34 +117,32 @@ Cubes::Cubes()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
 
         // Activation - Specification
-        {
-            const GLuint VERTEX_ATTR_POSITION   = 0;
-            const GLuint VERTEX_ATTR_NORMAL     = 1;
-            const GLuint VERTEX_ATTR_TEXCOORDS  = 2;
-            const GLuint CUBES_ATTR_POSITION    = 3;
-            const GLuint CUBES_ATTR_COLOR       = 4;
+        const GLuint VERTEX_ATTR_POSITION   = 0;
+        const GLuint VERTEX_ATTR_NORMAL     = 1;
+        const GLuint VERTEX_ATTR_TEXCOORDS  = 2;
+        const GLuint CUBES_ATTR_POSITION    = 3;
+        const GLuint CUBES_ATTR_COLOR       = 4;
 
-            glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-            glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-            glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), NULL);
+        glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+        glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
+        glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, position));
 
-            glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
-            glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, normal));
+        glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
+        glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, normal));
 
-            glEnableVertexAttribArray(VERTEX_ATTR_TEXCOORDS);
-            glVertexAttribPointer(VERTEX_ATTR_TEXCOORDS, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, texCoords));
+        glEnableVertexAttribArray(VERTEX_ATTR_TEXCOORDS);
+        glVertexAttribPointer(VERTEX_ATTR_TEXCOORDS, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, texCoords));
 
-            glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
-            glEnableVertexAttribArray(CUBES_ATTR_POSITION);
-            glVertexAttribPointer(CUBES_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
-            // advance in the buffer at each new cube drawing
-            glVertexAttribDivisor(CUBES_ATTR_POSITION, 1);
+        glBindBuffer(GL_ARRAY_BUFFER, this->vbPos);
+        glEnableVertexAttribArray(CUBES_ATTR_POSITION);
+        glVertexAttribPointer(CUBES_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
+        // advance in the buffer at each new cube drawing
+        glVertexAttribDivisor(CUBES_ATTR_POSITION, 1);
 
-            glBindBuffer(GL_ARRAY_BUFFER, this->vbCol);
-            glEnableVertexAttribArray(CUBES_ATTR_COLOR);
-            glVertexAttribPointer(CUBES_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
-            glVertexAttribDivisor(CUBES_ATTR_COLOR, 1);
-        }
+        glBindBuffer(GL_ARRAY_BUFFER, this->vbCol);
+        glEnableVertexAttribArray(CUBES_ATTR_COLOR);
+        glVertexAttribPointer(CUBES_ATTR_COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
+        glVertexAttribDivisor(CUBES_ATTR_COLOR, 1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -150,38 +150,40 @@ Cubes::Cubes()
 
 Cubes::~Cubes()
 {
-    glDeleteBuffers(1, &this->vbo);
-    glDeleteBuffers(1, &this->vbPos);
-    glDeleteBuffers(1, &this->vbCol);
-    glDeleteBuffers(1, &this->ibo);
-    glDeleteBuffers(1, &this->iboWireframe);
-    glDeleteVertexArrays(1, &this->vao);
+    glDeleteBuffers(1, &vbo);
+    glDeleteBuffers(1, &vbPos);
+    glDeleteBuffers(1, &vbCol);
+    glDeleteBuffers(1, &ibo);
+    glDeleteBuffers(1, &iboWireframe);
+    glDeleteVertexArrays(1, &vao);
 }
 
 void Cubes::drawCube()
 {
-    glBindVertexArray(this->vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
-    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, this->m_position.size());
+    texture->bindTexture();
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, m_position.size());
     glBindVertexArray(0);
+    texture->unbindTexture();
 };
 
 void Cubes::drawCubeWireframe()
 {
-    glBindVertexArray(this->vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->iboWireframe);
-    glDrawElementsInstanced(GL_LINES, 24, GL_UNSIGNED_INT, 0, this->m_position.size());
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboWireframe);
+    glDrawElementsInstanced(GL_LINES, 24, GL_UNSIGNED_INT, 0, m_position.size());
     glBindVertexArray(0);
 };
 
 void Cubes::updateGPU()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, this->vbPos); 
-    glBufferData(GL_ARRAY_BUFFER, this->m_position.size() * sizeof(glm::vec3), this->m_position.size() > 0 ? &this->m_position[0] : nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, vbPos); 
+    glBufferData(GL_ARRAY_BUFFER, m_position.size() * sizeof(glm::vec3), m_position.size() > 0 ? &m_position[0] : nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, this->vbCol); 
-    glBufferData(GL_ARRAY_BUFFER, this->m_color.size() * sizeof(glm::vec4), this->m_color.size() > 0 ? &this->m_color[0] : nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, vbCol); 
+    glBufferData(GL_ARRAY_BUFFER, m_color.size() * sizeof(glm::vec4), m_color.size() > 0 ? &m_color[0] : nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 };
 
@@ -232,18 +234,18 @@ void Cubes::removeCube(glm::vec3 position)
         // put the item to delete at the end
         int lastIndexP = m_position.size() - 1;
         std::swap(m_position[index], m_position[lastIndexP]);
-        this->m_position.pop_back();
+        m_position.pop_back();
 
         // put the item to delete at the end
         int lastIndexC = m_color.size() - 1;
         std::swap(m_color[index], m_color[lastIndexC]);
-        this->m_color.pop_back();
+        m_color.pop_back();
 
         updateGPU();
     }
 };
 
-void Cubes::addCube(glm::vec3 position, glm::vec4 color)
+void Cubes::addCube(glm::vec3 position, glm::vec4 color, int type)
 {
     if(isCubeExist(position))
     {
@@ -251,13 +253,16 @@ void Cubes::addCube(glm::vec3 position, glm::vec4 color)
     }
     else
     {
-        this->m_position.push_back(position);
-        this->m_color.push_back(color);
+        m_position.push_back(position);
+        m_color.push_back(color);
+        m_texture.push_back(type);
         updateGPU();
     }
 };
 
-void Cubes::extrudeCube(glm::vec3 position, glm::vec4 color){
+void Cubes::extrudeCube(glm::vec3 position, glm::vec4 color, int type)
+{
+    type = m_type;
     if (findCube(position) != -1) {
         color = getColors()[findCube(position)];
     }
@@ -269,7 +274,7 @@ void Cubes::extrudeCube(glm::vec3 position, glm::vec4 color){
         position.y++;
     }
     position.y--;
-    addCube(position, color);
+    addCube(position, color, type);
 }
 
 void Cubes::digCube(glm::vec3 position){
@@ -281,6 +286,25 @@ void Cubes::digCube(glm::vec3 position){
     }
     position.y -= 2.f;
     removeCube(position);
+}
+
+void Cubes::editTexture(glm::vec3 position, int type)
+{
+    m_type = type;
+    int index = findCube(position);
+    if(index != -1)
+    {   
+        m_texture[index] = type;
+    }
+    updateGPU();
+}
+
+Texture* Cubes::addTexture()
+{
+    if(m_type == 1)      return new Texture("grass");
+    else if(m_type == 2) return new Texture("ice");
+    else if(m_type == 3) return new Texture("sand");
+    else                 return new Texture("default");
 }
 
 void Cubes::saveScene(const std::string &filePath, const std::string &filename)

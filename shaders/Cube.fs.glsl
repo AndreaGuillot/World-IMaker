@@ -1,10 +1,10 @@
 #version 330 core
 
 // Input
-in vec2 vFragTexture;
 in vec3 vFragPosition;
 in vec3 vNormal;
 in vec4 vColor;
+in vec2 vTexture;
 
 // Uniform
 uniform vec3 uLightDir;
@@ -31,13 +31,7 @@ void main()
 	float totalLuminosity = min(luminosityDirLight + luminosityPointLight, 1.);
 	float totalLuminosity2 = min(luminosityPointLight2 + luminosityPointLight, 1.);
 
-	if(vColor != vec4(1.0, 1.0, 1.0, 1.0))
-	{
-		fFragColor = vec4(vColor * totalLuminosity2); 
-	}
+	//fFragColor = vec4(vColor * totalLuminosity2); 
 	
-/*
-	vec4 texture = texture(uTexture, vFragTexture);
-  	fFragColor = vec3(texture);
-*/
+  	fFragColor = texture(uTexture, vTexture);// * totalLuminosity2;
 }

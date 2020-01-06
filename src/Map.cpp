@@ -69,6 +69,8 @@ void Map::addControlPoint(int x, int z, int poids){
 
 void Map::loadWorld(Cubes &cube, glm::vec4 defaultColor){
 
+    int defaultType = 1;
+
     if(m_nbPoints != 0){
         clearWorld(cube);
         m_map = getMap(m_ControlPoints, m_values);
@@ -77,7 +79,7 @@ void Map::loadWorld(Cubes &cube, glm::vec4 defaultColor){
             for(int z=0; z<WORLD_TAILLE; z++){
                 for(int y=0; y <= m_map(x, z); y++){
                     if(m_map(x,z) != 0)
-                        cube.addCube(glm::vec3 (x-WORLD_TAILLE/2, y, z-WORLD_TAILLE/2), defaultColor);
+                        cube.addCube(glm::vec3 (x-WORLD_TAILLE/2, y, z-WORLD_TAILLE/2), defaultColor, defaultType);
                 }
             }
         }

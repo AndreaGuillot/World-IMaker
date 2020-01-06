@@ -8,7 +8,7 @@ void Curseur::deplacement(glm::vec3 direction)
 {
 	removeCube(m_posCursor);
 	m_posCursor += direction;
-	addCube(m_posCursor, m_colorCursor);
+	addCube(m_posCursor, m_colorCursor, m_type);
 }
 
 void Curseur::drawCurseur()

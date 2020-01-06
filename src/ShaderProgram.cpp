@@ -27,4 +27,5 @@ void ShaderProgram::createViewMatrix(const TrackballCamera &camera) const
     glUniformMatrix4fv(m_uNormalMatrix, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
     glUniformMatrix4fv(m_uMVPMatrix, 1, GL_FALSE, glm::value_ptr(ProjMatrix * MVMatrix));
     glUniform3fv(m_uLightDir, 1, glm::value_ptr(lightDir));
+    glUniform1i(m_uTexture, 0);
 }

@@ -40,9 +40,9 @@ int main(int argc, char** argv)
     ShaderProgram cursorProgram(applicationPath, "Cursor.fs.glsl");
 
     // ----------- Initialize scene
-    cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.));
-    cube.addCube(glm::vec3(0.0, 0.0, 0.0),  glm::vec4(0.3, 0.8, 0.2, 1.));
-    cube.addCube(glm::vec3(0.0, 1.0, 0.0),  glm::vec4(0.2, 0.3, 0.8, 1.));
+    cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.), 1);
+    cube.addCube(glm::vec3(0.0, 0.0, 0.0),  glm::vec4(0.3, 0.8, 0.2, 1.), 2);
+    cube.addCube(glm::vec3(0.0, 1.0, 0.0),  glm::vec4(0.2, 0.3, 0.8, 1.), 3);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -78,17 +78,17 @@ int main(int argc, char** argv)
                         break;
                         case SDLK_s : camera.moveFront(-speed);
                         break;
-                        case SDLK_SPACE : cube.addCube(cursor.getPosition(), cube.getLastColor());
+                        case SDLK_SPACE : cube.addCube(cursor.getPosition(), cube.getLastColor(), 1);
                         break;
-                        case SDLK_c : cube.addCube(cursor.getPosition(), glm::vec4(0.8, 0.2, 0.3, 1.0));
+                        case SDLK_c : cube.addCube(cursor.getPosition(), glm::vec4(0.8, 0.2, 0.3, 1.0), 1);
                         break;
-                        case SDLK_v : cube.addCube(cursor.getPosition(), glm::vec4(0.3, 0.8, 0.2, 1.0));
+                        case SDLK_v : cube.addCube(cursor.getPosition(), glm::vec4(0.3, 0.8, 0.2, 1.0), 2);
                         break;
-                        case SDLK_b : cube.addCube(cursor.getPosition(), glm::vec4(0.2, 0.3, 0.8, 1.0));
+                        case SDLK_b : cube.addCube(cursor.getPosition(), glm::vec4(0.2, 0.3, 0.8, 1.0), 3);
                         break;
                         case SDLK_DELETE : cube.removeCube(cursor.getPosition());
                         break;
-                        case SDLK_e : cube.extrudeCube(cursor.getPosition(), cube.getLastColor());
+                        case SDLK_e : cube.extrudeCube(cursor.getPosition(), cube.getLastColor(), 1);
                         break;
                         case SDLK_d : cube.digCube(cursor.getPosition());
                         break;

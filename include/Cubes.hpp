@@ -8,6 +8,7 @@
 #include <eigen3/Eigen/Dense>
 
 #include "RadialBasisFunctions.hpp"
+#include "Texture.hpp"
 
 using namespace glimac;
 
@@ -20,9 +21,15 @@ using namespace glimac;
 class Cubes
 {
     protected:
+        Texture* texture;
+
         std::vector<ShapeVertex> m_vertex;
         std::vector<glm::vec3> m_position;
         std::vector<glm::vec4> m_color;
+        std::vector<int> m_texture;
+
+        int m_type;
+
         GLuint vbo;
         GLuint vbPos;
         GLuint vbCol;
@@ -46,9 +53,12 @@ class Cubes
         int  findCube(glm::vec3 position);
         bool isCubeExist(glm::vec3 position);
         void removeCube(glm::vec3 position);
-        void addCube(glm::vec3 position, glm::vec4 color);
-        void extrudeCube(glm::vec3 position, glm::vec4 color);
+        void addCube(glm::vec3 position, glm::vec4 color, int type);
+        void extrudeCube(glm::vec3 position, glm::vec4 color, int type);
         void digCube(glm::vec3 position);
+        // texture
+        void editTexture(glm::vec3 position, int type);
+        Texture* addTexture();
         // save - load
         void saveScene(const std::string &filePath, const std::string &filename);
         void loadScene(const std::string &filePath, const std::string &filename);

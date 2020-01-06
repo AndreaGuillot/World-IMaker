@@ -13,10 +13,10 @@ uniform mat4 uMVMatrix;
 uniform mat4 uNormalMatrix;
 
 // Output
-out vec2 vFragTexture;
 out vec3 vFragPosition;
 out vec3 vNormal;
 out vec4 vColor;
+out vec2 vTexture;
 
 void main()
 {
@@ -24,7 +24,7 @@ void main()
     gl_Position = uMVPMatrix * position;
     // output
     vFragPosition = aVertexPosition;
-    vFragTexture = aVertexTexture;
+    vTexture = aVertexTexture;
     vNormal = aVertexNormal;
     vColor = aCubeColor;
 }
