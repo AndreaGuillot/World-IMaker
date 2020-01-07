@@ -24,6 +24,7 @@ class Interface
 		~Interface();
 		// display
 		void startFrame() const;
+		void editScene(Cubes &cube, Map &map) const;
 		void editCube(Cubes &cube, Curseur &cursor, Map &map) const;
 		void editMap(Cubes &cube, Map &map, glm::vec4 defaultColor) const;
 		void endFrame() const;

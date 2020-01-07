@@ -43,8 +43,8 @@ void Interface::startFrame() const
 void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
 {
 	// Settings
-	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	ImGui::SetNextWindowSize(ImVec2(260, 270));
+	ImGui::SetNextWindowPos(ImVec2(10, 150));
+	ImGui::SetNextWindowSize(ImVec2(260, 250));
     
     // Set colors
 	std::vector<glm::vec4> allColors = {glm::vec4(0.8, 0.2, 0.3, 1.0), glm::vec4(0.3, 0.8, 0.2, 1.0), glm::vec4(0.2, 0.3, 0.8, 1.0)};
@@ -52,30 +52,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
 	int defaultType = 0;
 
 	// Create menu with options
-	ImGui::Begin("Options : Cube / Colonne");
-
-		if (ImGui::Button("  Sauvegarder  "))
-		{
-			std::string filename, filepath;
-			std::cout << "Nom du fichier (ex : test) : ";
-			std::cin >> filename;
-			std::cout << "Emplacement (ex : /home/user/Documents/) : ";
-			std::cin >> filepath;
-			cube.saveScene(filepath, filename);
-		}
-
-		ImGui::SameLine();
-
-		if (ImGui::Button("    Charger    "))
-		{
-			std::string filename, filepath;
-			std::cout << "Nom du fichier (ex : test) : ";
-			std::cin >> filename;
-			std::cout << "Emplacement (ex : /home/user/Documents/) : ";
-			std::cin >> filepath;
-			cube.loadScene(filepath, filename);
-		}
-		ImGui::Text(" ");
+	ImGui::Begin("Options : Cube / Colonne");	
 
 		ImGui::Text("Modifier la couleur du cube :");
 	        static int selected = -1;
@@ -140,6 +117,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
 			}
 		ImGui::Text(" ");
 		editMap(cube, map, defaultColor);
+		editScene(cube, map);
 		
 	ImGui::End();
 }
@@ -147,7 +125,7 @@ void Interface::editCube(Cubes &cube, Curseur &cursor, Map &map) const
 void Interface::editMap(Cubes &cube, Map &map, glm::vec4 defaultColor) const
 {
 	// Settings
-	ImGui::SetNextWindowPos(ImVec2(10, 280));
+	ImGui::SetNextWindowPos(ImVec2(10, 410));
 	ImGui::SetNextWindowSize(ImVec2(260, 185));
 
 	// Create menu with options
@@ -189,6 +167,53 @@ void Interface::editMap(Cubes &cube, Map &map, glm::vec4 defaultColor) const
 
 	ImGui::End();
 
+}
+
+void Interface::editScene(Cubes &cube, Map &map) const
+{
+	// Settings
+	ImGui::SetNextWindowPos(ImVec2(10, 10));
+	ImGui::SetNextWindowSize(ImVec2(260, 130));
+
+	ImGui::Begin("Scène 3D :");
+
+		if (ImGui::Button(" Scène initiale "))
+		{
+			map.initWorld(cube);
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button(" Tout supprimer "))
+		{
+			map.deleteInitWorld(cube);
+		}
+		ImGui::Text(" ");
+
+		ImGui::Text("Scène actuelle :");
+		if (ImGui::Button("  Sauvegarder  "))
+		{
+			std::string filename, filepath;
+			std::cout << "Nom du fichier (ex : test) : ";
+			std::cin >> filename;
+			std::cout << "Emplacement (ex : /home/user/Documents/) : ";
+			std::cin >> filepath;
+			cube.saveScene(filepath, filename);
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("    Charger    "))
+		{
+			std::string filename, filepath;
+			std::cout << "Nom du fichier (ex : test) : ";
+			std::cin >> filename;
+			std::cout << "Emplacement (ex : /home/user/Documents/) : ";
+			std::cin >> filepath;
+			cube.loadScene(filepath, filename);
+		}
+	
+	ImGui::End();	
 }
 
 void Interface::endFrame() const

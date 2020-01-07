@@ -40,9 +40,7 @@ int main(int argc, char** argv)
     ShaderProgram cursorProgram(applicationPath, "Cursor.fs.glsl");
 
     // ----------- Initialize scene
-    cube.addCube(glm::vec3(0.0, -1.0, 0.0), glm::vec4(0.8, 0.2, 0.3, 1.), 1);
-    cube.addCube(glm::vec3(0.0, 0.0, 0.0),  glm::vec4(0.3, 0.8, 0.2, 1.), 2);
-    cube.addCube(glm::vec3(0.0, 1.0, 0.0),  glm::vec4(0.2, 0.3, 0.8, 1.), 3);
+    map.initWorld(cube);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -77,6 +75,10 @@ int main(int argc, char** argv)
                         case SDLK_z : camera.moveFront(speed);
                         break;
                         case SDLK_s : camera.moveFront(-speed);
+                        break;
+                        case SDLK_w : camera.moveLeft(-speed);
+                        break;
+                        case SDLK_x : camera.moveLeft(speed);
                         break;
                         case SDLK_SPACE : cube.addCube(cursor.getPosition(), cube.getLastColor(), 1);
                         break;

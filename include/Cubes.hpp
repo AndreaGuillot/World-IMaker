@@ -12,7 +12,7 @@
 
 using namespace glimac;
 
-#define WORLD_TAILLE 40
+#define WORLD_TAILLE 20
 
 /********************************
  *        CREATE 3D CUBE        *
@@ -47,8 +47,6 @@ class Cubes
         void updateGPU();
         // color
         void editColor(glm::vec3 position, glm::vec4 color);
-        inline std::vector<glm::vec4> getColors() const { return m_color; }
-        inline glm::vec4 getLastColor() const { return m_color[m_color.size()-1]; }
         // sculpting
         int  findCube(glm::vec3 position);
         bool isCubeExist(glm::vec3 position);
@@ -64,4 +62,9 @@ class Cubes
         void loadScene(const std::string &filePath, const std::string &filename);
         // delete all data
         void deleteData();
+        // getters
+        inline std::vector<glm::vec4> getColors() const { return m_color; }
+        inline glm::vec4 getLastColor() const { return m_color[m_color.size()-1]; }
+        inline std::vector<glm::vec3> getPosition() const { return m_position; }
+        inline std::vector<int> getTexture() const { return m_texture; }
 };

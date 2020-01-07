@@ -7,7 +7,7 @@
  *  RBF : PROCEDURAL GENERATION  *
  *********************************/
 
-#define WORLD_TAILLE 40
+#define WORLD_TAILLE 20
 
 float phi(const float a);
 Eigen::MatrixXd getMap (const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf values);

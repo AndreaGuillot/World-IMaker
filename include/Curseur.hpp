@@ -16,7 +16,7 @@ class Curseur : public Cubes
 
 	public :
 		// initialization
-		Curseur() : m_posCursor(0.0f, 0.0f, 0.0f), m_colorCursor(1.f, 1.f, 1.f, 1.f), m_type(0) { addCube(m_posCursor, m_colorCursor, m_type); }
+		Curseur() : m_posCursor(0.0f, 0.0f, 19.0f), m_colorCursor(1.f, 1.f, 1.f, 1.f), m_type(0) { addCube(m_posCursor, m_colorCursor, m_type); }
 		~Curseur() = default;
 		// draw
 		void drawCurseur();

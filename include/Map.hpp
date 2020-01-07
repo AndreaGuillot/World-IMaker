@@ -7,7 +7,7 @@
 
 using namespace glimac;
 
-#define WORLD_TAILLE 40
+#define WORLD_TAILLE 20
 
 class Map {
     protected:
@@ -21,6 +21,8 @@ class Map {
         Map() : m_map(WORLD_TAILLE, WORLD_TAILLE), m_ControlPoints(m_nbPoints, 2), m_values(m_nbPoints) {}
         ~Map() = default;
         // sculpting
+        void initWorld(Cubes &cube);
+        void deleteInitWorld(Cubes &cube);
         int  findControlPoint(float x, float z);
         bool isControlPointExist(float x, float z);
         void removeControlPoint(float x, float z);

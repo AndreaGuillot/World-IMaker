@@ -31,7 +31,7 @@ void main()
 	float totalLuminosity = min(luminosityDirLight + luminosityPointLight, 1.);
 	float totalLuminosity2 = min(luminosityPointLight2 + luminosityPointLight, 1.);
 
-	//fFragColor = vec4(vColor * totalLuminosity2); 
+	fFragColor = vec4(vColor * totalLuminosity2); 
 	
-  	fFragColor = texture(uTexture, vTexture);// * totalLuminosity2;
+  	//fFragColor = texture(uTexture, vTexture) * totalLuminosity2;
 }

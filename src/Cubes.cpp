@@ -322,7 +322,8 @@ void Cubes::saveScene(const std::string &filePath, const std::string &filename)
             file << m_color[i].r    << " ";
             file << m_color[i].g    << " ";
             file << m_color[i].b    << " ";
-            file << m_color[i].a    << std::endl;
+            file << m_color[i].a    << " ";
+            file << m_texture[i]    << std::endl;
         }
         std::cout << "Scène auvegardée !" << std::endl; 
         file.close();
@@ -343,6 +344,7 @@ void Cubes::loadScene(const std::string &filePath, const std::string &filename)
         file >> nbCubes;
         std::vector<glm::vec3> position(nbCubes);
         std::vector<glm::vec4> color(nbCubes);
+        std::vector<int> textures(nbCubes);
         for(size_t i = 0; i < nbCubes; ++i)
         { 
             file >> position[i].x;
@@ -352,11 +354,13 @@ void Cubes::loadScene(const std::string &filePath, const std::string &filename)
             file >> color[i].g;
             file >> color[i].b;
             file >> color[i].a;
+            file >> textures[i];
         }
         std::cout << "Scène chargée !" << std::endl; 
         file.close();
         m_position = position;
         m_color = color;
+        m_texture = textures;
         updateGPU();
     }
     else

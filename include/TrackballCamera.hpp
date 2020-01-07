@@ -12,13 +12,17 @@ class TrackballCamera
 {
     private:
         float m_fDistance;  // distance from the center of the scene
+        float m_sDistance;  // horizontal axis
+        float m_uDistance;  // vertical axis
         float m_fAngleX;    // angle around the xAxis (rotation up/down)
         float m_fAngleY;    // angle around the yAxis (rotation right/left)
 
     public:
     	// initialization
         TrackballCamera() :
-            m_fDistance(5.f),
+            m_fDistance(34.),
+            m_sDistance(-9.f),
+            m_uDistance(-9.f),
             m_fAngleX(0.f),
             m_fAngleY(0.f)
             {};
@@ -37,6 +41,13 @@ class TrackballCamera
         void moveFront(float delta) {
             this->m_fDistance += -delta;
         }
+        void moveLeft(float delta)
+        {
+            this->m_sDistance += -delta;
+        }
+        void moveUp(float delta) {
+            this->m_uDistance += -delta;
+        }
         void rotateLeft(float degrees) {
             this->m_fAngleY += degrees;
         }
@@ -47,9 +58,9 @@ class TrackballCamera
         glm::mat4 getViewMatrix() const
         {
             glm::mat4 ViewMatrix;
-            ViewMatrix = glm::translate(ViewMatrix,glm::vec3(0.f,0.f,-this->m_fDistance));
-            ViewMatrix = glm::rotate(ViewMatrix, glm::radians(this->m_fAngleX), glm::vec3(1.f,0.f,0.f));
-            ViewMatrix = glm::rotate(ViewMatrix, glm::radians(this->m_fAngleY), glm::vec3(0.f,1.f,0.f));
+            ViewMatrix = glm::translate(ViewMatrix,glm::vec3(this->m_sDistance, this->m_uDistance, -this->m_fDistance));
+            ViewMatrix = glm::rotate(ViewMatrix, glm::radians(this->m_fAngleX), glm::vec3(1.f, 0.f, 0.f));
+            ViewMatrix = glm::rotate(ViewMatrix, glm::radians(this->m_fAngleY), glm::vec3(0.f, 1.f, 0.f));
             return ViewMatrix;
         }
 };

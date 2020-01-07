@@ -1,5 +1,32 @@
 #include "../include/Map.hpp"
 
+void Map::initWorld(Cubes &cube)
+{
+    for(uint z = 0; z < WORLD_TAILLE; z++)
+    {
+        for(uint x = 0; x < WORLD_TAILLE; x++)
+        {
+            cube.addCube(glm::vec3(x, 0.0, z), glm::vec4(0.8, 0.2, 0.3, 1.), 1);
+            cube.addCube(glm::vec3(x, 1.0, z), glm::vec4(0.3, 0.8, 0.2, 1.), 2);
+            cube.addCube(glm::vec3(x, 2.0, z), glm::vec4(0.2, 0.3, 0.8, 1.), 3);
+        }
+    }
+}
+
+void Map::deleteInitWorld(Cubes &cube)
+{
+    for(uint z = 0; z < WORLD_TAILLE; z++)
+    {
+        for(uint x = 0; x < WORLD_TAILLE; x++)
+        {
+            for(uint y = 0; y < WORLD_TAILLE; y++)
+            {
+                cube.removeCube(glm::vec3(x, y, z));
+            }
+        }
+    }
+}
+
 int  Map::findControlPoint(float x, float z){
     for(int j = 0; j < m_nbPoints; ++j)
     {
