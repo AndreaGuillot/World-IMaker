@@ -145,16 +145,16 @@ void Interface::editMap(Cubes &cube, Map &map, glm::vec4 defaultColor) const
 
 		ImGui::Text(" ");
 		ImGui::Text("Action sur un point de controle :");
-		static int poids = 0, x = 40, z = 40;
+		static int poids = 0, x = 20, z = 20;
 		ImGui::InputInt("Position x", &x);
 		ImGui::InputInt("Position z", &z);
 		ImGui::InputInt("Poids", &poids);
 
 		if (ImGui::Button("    Ajouter    ")){
-			if((x < 41) && (x > -1) && (z < 41) && (z > -1) && (poids > 0) && (poids < 41))
+			if((x < 21) && (x > -1) && (z < 21) && (z > -1) && (poids > 0) && (poids < 21))
 				map.addControlPoint(x, z, poids);
 			else 
-				std::cerr<< "ERREUR : vos valeurs doivent se situer entre 0 et 40"<<std::endl;
+				std::cerr<< "ERREUR : vos valeurs doivent se situer entre 0 et 20"<<std::endl;
 			if (flag == 1)
 				map.loadWorld(cube, defaultColor);
 		}
