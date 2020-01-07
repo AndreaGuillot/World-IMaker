@@ -80,6 +80,10 @@ int main(int argc, char** argv)
                         break;
                         case SDLK_x : camera.moveLeft(speed);
                         break;
+                        case SDLK_a : camera.moveUp(speed);
+                        break;
+                        case SDLK_q : camera.moveUp(-speed);
+                        break;
                         case SDLK_SPACE : cube.addCube(cursor.getPosition(), cube.getLastColor(), 1);
                         break;
                         case SDLK_c : cube.addCube(cursor.getPosition(), glm::vec4(0.8, 0.2, 0.3, 1.0), 1);
