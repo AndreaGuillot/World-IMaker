@@ -146,9 +146,9 @@ void Interface::editMap(Cubes &cube, Map &map, glm::vec4 defaultColor) const
 		ImGui::Text(" ");
 		ImGui::Text("Action sur un point de controle :");
 		static int poids = 0, x = 20, z = 20;
-		ImGui::InputInt("Position x", &x);
-		ImGui::InputInt("Position z", &z);
-		ImGui::InputInt("Poids", &poids);
+		ImGui::SliderInt("Position x", &x, 0, 20);
+		ImGui::SliderInt("Position z", &z, 0, 20);
+		ImGui::SliderInt("Poids", &poids, 0, 20);
 
 		if (ImGui::Button("    Ajouter    ")){
 			if((x < 21) && (x > -1) && (z < 21) && (z > -1) && (poids > 0) && (poids < 21))

@@ -104,9 +104,9 @@ void Map::loadWorld(Cubes &cube, glm::vec4 defaultColor){
 
         for(int x=0; x<WORLD_TAILLE; x++){
             for(int z=0; z<WORLD_TAILLE; z++){
-                for(int y=0; y <= m_map(x, z); y++){
+                for(int y=3; y <= (m_map(x, z)+2); y++){
                     if(m_map(x,z) != 0)
-                        cube.addCube(glm::vec3 (x-WORLD_TAILLE/2, y, z-WORLD_TAILLE/2), defaultColor, defaultType);
+                        cube.addCube(glm::vec3 (x, y, z), defaultColor, defaultType);
                 }
             }
         }
@@ -119,9 +119,9 @@ void Map::clearWorld(Cubes &cube){
     if(m_nbPoints != 0){
         for(int x=0; x<WORLD_TAILLE; x++){
             for(int z=0; z<WORLD_TAILLE; z++){
-                for(int y=0; y <= m_map(x, z); y++){
+                for(int y=3; y <= (m_map(x, z)+2); y++){
                     if(m_map(x,z) != 0)
-                        cube.removeCube(glm::vec3 (x-WORLD_TAILLE/2, y, z-WORLD_TAILLE/2));
+                        cube.removeCube(glm::vec3 (x, y, z));
                 }
             }
         }

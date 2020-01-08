@@ -102,10 +102,12 @@ int main(int argc, char** argv)
                     }
                 // 3. Mouse options
                 case(SDL_MOUSEMOTION) : MousePos = interface.windowManager.getMousePosition();
-                    if(e.button.button != 0.0)
-                    {
-                        camera.rotateUp((MousePosPrec.y - MousePos.y) * speedRotation);
-                        camera.rotateLeft((MousePosPrec.x - MousePos.x) * speedRotation);
+                    if (!ImGui::GetIO().WantCaptureMouse){
+                        if(e.button.button != 0.0)
+                        {
+                            camera.rotateUp((MousePosPrec.y - MousePos.y) * speedRotation);
+                            camera.rotateLeft((MousePosPrec.x - MousePos.x) * speedRotation);
+                        }
                     }
             }   
         }
