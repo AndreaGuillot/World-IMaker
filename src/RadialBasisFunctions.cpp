@@ -9,6 +9,16 @@ float phi(const float a)
     return exp(-0.2*a*a);
 }
 
+float phi1(const float a)
+{
+    return 1/(1+pow((0.2*a),2));
+}
+
+float phi2(const float a)
+{
+    return sqrt(1+pow((0.2*a),2));
+}
+
 Eigen::VectorXf findOmega (const Eigen::MatrixXf ControlPoints, const Eigen::VectorXf values)
 {
     Eigen::MatrixXf A = Eigen::MatrixXf::Zero(ControlPoints.rows(), ControlPoints.rows());

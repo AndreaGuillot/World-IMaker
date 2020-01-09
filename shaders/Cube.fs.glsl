@@ -18,8 +18,8 @@ void main()
 {
 	// calcul light
 	vec3 dir = normalize(vec3(0.5, -0.7, -0.8));
-	vec3 pos = normalize(vec3(0.8, -0.5, -0.1));
-	vec3 pos2 = normalize(vec3(-0.2, 0.2, -0.8));
+	vec3 pos = normalize(vec3(-0.8, 0.5, 0.1));
+	vec3 pos2 = normalize(vec3(0.2, -0.2, 0.8));
 
 	vec3 dirBetweenPointLightAndCurrentPixel = normalize(vFragPosition-pos);
 	vec3 dirBetweenPointLightAndCurrentPixel2 = normalize(vFragPosition-pos2);
