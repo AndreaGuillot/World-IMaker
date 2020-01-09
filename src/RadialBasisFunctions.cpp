@@ -4,17 +4,17 @@
  *  RBF : PROCEDURAL GENERATION  *
  *********************************/
 
-float phi(const float a)
+float phi(const float a) // fonction Gaussienne
 {
     return exp(-0.2*a*a);
 }
 
-float phi1(const float a)
+float phi1(const float a) //fonction inverse quadratique
 {
     return 1/(1+pow((0.2*a),2));
 }
 
-float phi2(const float a)
+float phi2(const float a) //fonction multiquadratique
 {
     return sqrt(1+pow((0.2*a),2));
 }
