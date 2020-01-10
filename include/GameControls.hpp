@@ -15,6 +15,8 @@ inline void displayControls()
     std::cout << "/////////////////////////////////////////////////" << std::endl;
     std::cout << "Déplacer la caméra :  - Zoom +  : Z" 	 			 << std::endl;
     std::cout << "                      - Zoom -  : S" 				 << std::endl;
+    std::cout << "                      - Gauche  : W"               << std::endl;
+    std::cout << "                      - Droite  : X"               << std::endl;
     std::cout << "                      - Tourner : Souris"          << std::endl;
     std::cout << "*************************************************" << std::endl;
     std::cout << "Déplacer le curseur : - Haut   : Flèche du haut"   << std::endl;
@@ -25,6 +27,9 @@ inline void displayControls()
     std::cout << "                      - Avant  : M"                << std::endl;
     std::cout << "*************************************************" << std::endl;
     std::cout << "Manipuler les cubes : - Ajouter   : Barre espace"  << std::endl;
+    std::cout << "                      - Rouge     : C"             << std::endl;
+    std::cout << "                      - Vert      : V"             << std::endl;
+    std::cout << "                      - Bleu      : B"             << std::endl;
     std::cout << "                      - Supprimer : Suppr"         << std::endl;
     std::cout << "                      - Extrude   : E"             << std::endl;
     std::cout << "                      - Dig       : D"             << std::endl;
