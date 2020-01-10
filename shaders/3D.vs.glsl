@@ -17,10 +17,12 @@ out vec3 vFragPosition;
 out vec3 vNormal;
 out vec4 vColor;
 out vec2 vTexture;
+out vec3 vPosition;
 
 void main()
 {
     vec4 position = vec4(aVertexPosition + aCubePosition, 1.0);
+    vPosition = position.xyz;
     gl_Position = uMVPMatrix * position;
     // output
     vFragPosition = aVertexPosition;
